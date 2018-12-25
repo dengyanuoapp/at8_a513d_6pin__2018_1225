@@ -15,3 +15,5 @@
 
 /mobile/*.apk
 /[0-9]/
+/log01p.txt
+/log01u.txt

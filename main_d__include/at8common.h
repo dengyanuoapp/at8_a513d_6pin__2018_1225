@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file       at8common.h
  * \brief      AT8xxxx common header.
  * \author     HuangTing

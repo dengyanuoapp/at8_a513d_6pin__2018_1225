@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file       at8b62d.h
  * \brief      AT8B62D header file
  * \author     HuangTing

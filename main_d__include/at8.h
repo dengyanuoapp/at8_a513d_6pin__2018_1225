@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \file       at8.h
  * \brief      chip header file
  * \author     HuangTing
