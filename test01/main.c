@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * \decribtion		ADC_Polling(eight times average)
  * \author  		JasonLee
  * \date    		2018.08.30
