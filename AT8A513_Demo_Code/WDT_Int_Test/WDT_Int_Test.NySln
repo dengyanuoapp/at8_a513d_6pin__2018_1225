@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "WDT Int Test", "WDT Int Test\WDT Int Test.naprj", "{1E5BF7AF-50BF-48B0-83EE-214A5B535DCC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1E5BF7AF-50BF-48B0-83EE-214A5B535DCC}.Debug|Any.Build.0 = Debug|Any
+		{1E5BF7AF-50BF-48B0-83EE-214A5B535DCC}.Debug|Any.ActiveCfg = Debug|Any
+		{1E5BF7AF-50BF-48B0-83EE-214A5B535DCC}.Release|Any.Build.0 = Release|Any
+		{1E5BF7AF-50BF-48B0-83EE-214A5B535DCC}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

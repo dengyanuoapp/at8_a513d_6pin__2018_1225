@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "PB Int Test", "PB Int Test\PB Int Test.naprj", "{F6395987-4833-40C1-86E2-7007FBD95BBE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6395987-4833-40C1-86E2-7007FBD95BBE}.Debug|Any.Build.0 = Debug|Any
+		{F6395987-4833-40C1-86E2-7007FBD95BBE}.Debug|Any.ActiveCfg = Debug|Any
+		{F6395987-4833-40C1-86E2-7007FBD95BBE}.Release|Any.Build.0 = Release|Any
+		{F6395987-4833-40C1-86E2-7007FBD95BBE}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

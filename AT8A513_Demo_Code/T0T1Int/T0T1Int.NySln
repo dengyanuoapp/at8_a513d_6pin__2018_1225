@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 1.02.0.707
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "T0T1Int", "T0T1Int\T0T1Int.naprj", "{084D15B4-86BE-4746-A85A-F9041E64F5BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{084D15B4-86BE-4746-A85A-F9041E64F5BE}.Debug|Any.Build.0 = Debug|Any
+		{084D15B4-86BE-4746-A85A-F9041E64F5BE}.Debug|Any.ActiveCfg = Debug|Any
+		{084D15B4-86BE-4746-A85A-F9041E64F5BE}.Release|Any.Build.0 = Release|Any
+		{084D15B4-86BE-4746-A85A-F9041E64F5BE}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

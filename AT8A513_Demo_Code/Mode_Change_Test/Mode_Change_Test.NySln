@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "Mode Change Test", "Mode Change Test\Mode Change Test.naprj", "{8F395881-0C83-4363-AFB5-81424FB1340E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8F395881-0C83-4363-AFB5-81424FB1340E}.Debug|Any.Build.0 = Debug|Any
+		{8F395881-0C83-4363-AFB5-81424FB1340E}.Debug|Any.ActiveCfg = Debug|Any
+		{8F395881-0C83-4363-AFB5-81424FB1340E}.Release|Any.Build.0 = Release|Any
+		{8F395881-0C83-4363-AFB5-81424FB1340E}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

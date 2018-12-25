@@ -1,0 +1,402 @@
+
+                    AT Win Technology Co., Ltd.
+
+ATASM 1.92 [Build 051515.00]  File=C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATW����Ƽ�ר������\�����������\DEMO CODE\AT8A513\H_L IRC CHANGE TEST\H_L IRC CHANGE TEST\H_L IRC CHANGE TEST.ASM Date=2015/7/17 17:54:53
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    0-0001      ; =========================================================================
+                                    0-0002      ; Created by ATW IDE.
+                                    0-0003      ; User: VincentLin
+                                    0-0004      ; Date: 2015/7/2
+                                    0-0005      ; Time: 9:36
+                                    0-0006      ; 说明：切换高低频率的测试。H_IRC <-> l_IRC 互切。
+                                    0-0007      ;		可由PB1端口看到频率切换的变化。(H_IRC每1.024ms变化一次。L_IRC每128ms变化一次）
+                                    0-0008      ; =========================================================================
+                                    0-0009      ; Chip Register Define
+                                    0-0010      ;; Register R
+                  0                 0-  11      		INDF		EQU		0x00
+                  1                 0-  12      		TMR0		EQU		0x01
+                  2                 0-  13      		PCL		EQU		0x02
+                                    0-0014      		
+                  3                 0-  15      		STATUS		EQU		0x03
+                  0                 0-  16      			C		EQU		0
+                  1                 0-  17      			DC		EQU		1
+                  2                 0-  18      			Z		EQU		2
+                                    0-0019      ;			PD		EQU		3
+                                    0-0020      ;			TO		EQU		4
+                                    0-0021      			
+                  4                 0-  22      		FSR		EQU		0x04
+                  5                 0-  23      		PA		EQU		0x05
+                  6                 0-  24      		PB		EQU		0x06
+                  8                 0-  25      		PCON		EQU		0x08
+                  9                 0-  26      		BWUCON		EQU		0x09
+                  A                 0-  27      		PCHBUF		EQU		0x0A
+                  B                 0-  28      		ABPLCON		EQU		0x0B
+                  C                 0-  29      		BPHCON		EQU		0x0C
+                                    0-0030      		
+                  E                 0-  31      		INTE		EQU		0x0E
+                  0                 0-  32      			T0IE	EQU		0
+                  1                 0-  33      			PBIE	EQU		1
+                  2                 0-  34      			INTIE	EQU		2
+                  3                 0-  35      			T1IE	EQU		3
+                  6                 0-  36      			WDTIE	EQU		6
+                                    0-0037      			
+                  F                 0-  38      		INTF		EQU		0x0f
+                  0                 0-  39      			T0IF	EQU		0
+                  1                 0-  40      			PBIF	EQU		1
+                  2                 0-  41      			INTIF	EQU		2
+                  3                 0-  42      			T1IF	EQU		3
+                  6                 0-  43      			WDTIF	EQU		6
+                                    0-0044      
+                                    0-0045      ;; Register F
+                  A                 0-  46      		PS0CV		EQU		0x0a
+                  C                 0-  47      		BOBCON		EQU		0x0c
+                                    0-0048      		
+                  F                 0-  49      		PCON1		EQU		0x0f
+                  0                 0-  50      			T0EN	EQU		0
+                  7                 0-  51      			GIE	EQU		7
+                                    0-0052      		
+                                    0-0053      ;; Register S
+                  0                 0-  54      		TMR1		EQU		0x00
+                                    0-0055      		
+                  1                 0-  56      		T1CR1		EQU		0x01
+                  0                 0-  57      			T1EN	EQU		0
+                  1                 0-  58      			T1RL	EQU		1
+                  2                 0-  59      			T1OS	EQU		2
+                                    0-0060      			
+                  6                 0-  61      			PWM1OAL	EQU		6
+                  7                 0-  62      			PWM1OEN	EQU		7
+                                    0-0063      			
+                  2                 0-  64      		T1CR2		EQU		0x02
+                  3                 0-  65      			PS1EN	EQU		3
+                  4                 0-  66      			T1CE	EQU		4
+                  5                 0-  67      			T1CS	EQU		5
+                                    0-0068      			
+                  3                 0-  69      		PWM1DUTY	EQU		0x03
+                  4                 0-  70      		PS1CV		EQU		0x04
+                  5                 0-  71      		BZ1CR		EQU		0x05
+                                    0-0072      		
+                  6                 0-  73      		IRCR		EQU		0x06
+                  0                 0-  74      			IREN		EQU	0
+                  1                 0-  75      			IRF57K		EQU	1
+                  2                 0-  76      			IRCSEL		EQU	2
+                  7                 0-  77      			IROSC358M	EQU	7
+                                    0-0078      			
+                  7                 0-  79      		TBHP		EQU		0x07
+                  8                 0-  80      		TBHD		EQU		0x08
+                                    0-0081      		
+                  F                 0-  82      		OSCCR		EQU		0x0f
+                  0                 0-  83      			SELHSC	EQU		0
+                  1                 0-  84      			STPHOSC	EQU		1
+                  2                 0-  85      			OPMD0	EQU		2
+                  3                 0-  86      			OPMD1	EQU		3
+                                    0-0087      
+                  1                 0-  88      		f			EQU		1
+                  1                 0-  89      		R			EQU		1
+                  0                 0-  90      		W			EQU		0
+                  0                 0-  91      		A			EQU		0
+                                    0-0092      		
+                                    0-0093      ;; User Register Define (0x10~0x3F)
+                 10                 0-  94      	R_ACC_Buf	EQU		0x10
+                 11                 0-  95      	R_Status_Buf	EQU		0x11
+                 12                 0-  96      	R_RollCode_Buf_L	EQU		0x12
+                 13                 0-  97      	R_RollCode_Buf_M	EQU		0x13
+                 14                 0-  98      	R_RollCode_Buf_H	EQU		0x14
+                 15                 0-  99      	R_Temp				EQU		0x15
+                                    0-0100      	
+                 16                 0- 101      	R_Time_Buf_H		EQU		0x16
+                 17                 0- 102      	R_Time_Buf_M		EQU		0x17
+                 18                 0- 103      	R_Time_Buf_L		EQU		0x18
+                                    0-0104      	
+                 19                 0- 105      	R_Flag				equ		0x19
+                  0                 0- 106      		f_1ms			equ		0
+                                    0-0107      	
+                                    0-0108      		
+                                    0-0109      
+                                    0-0110      ;; Chip Reset Vector
+                                    0-0111      ; ===============================================================
+                  0                 0- 112      		ORG	0x00
+                  0                 0- 113      Reset:
+        0 321D                      0- 114     		GOTO	Main_Prog
+                                    0-0115      
+                  8                 0- 116      		ORG		0x08
+        8 3210                      0- 117     		GOTO	ISR_Prog
+                                    0-0118      
+                                    0-0119      ;; 滚码位置区		
+                  E                 0- 120      		ORG		0x0e
+        E 0000                      0- 121     		NOP	;dw		0xfc01			;; 低10Bit
+        F 0000                      0- 122     		NOP	;dw		0xfd00			;; 高10Bit
+                                    0-0123      		
+                                    0-0124      ;; ISR Vector
+                 10                 0- 125      		ORG	0x10
+                 10                 0- 126      ISR_Prog:
+       10 0090                      0- 127     		MOVAR		R_ACC_Buf			;; 保留 ACC 及 Status 的状态值
+       11 1590                      0- 128     		SWAPR		R_ACC_Buf, R
+       12 1503                      0- 129     		SWAPR		STATUS, A
+       13 0091                      0- 130     		MOVAR		R_Status_Buf
+                                    0-0131      
+                                    0-0132      ;		BTRSS		INTF, T1IF
+                                    0-0133      ;		GOTO		ISR_Prog100
+                                    0-0134      ;		BCR			INTF, T1IF		;; 不建议使用方式清除
+                                    0-0135      ;		MOVIA		0xF7
+                                    0-0136      ;		MOVAR		INTF			;; CLR TIMER1 FLAG
+                                    0-0137      ;		MOVIA		0x04
+                                    0-0138      ;		XORAR		PB, R
+                                    0-0139      	
+                 14                 0- 140      	ISR_Prog100:
+       14 080F                      0- 141     		BTRSS		INTF, T0IF
+       15 3219                      0- 142     		GOTO		ISR_End
+                                    0-0143      ;		BCR			INTF, T0IF		;; 不建议使用方式清除
+       16 21FE                      0- 144     		MOVIA		0xFE
+       17 008F                      0- 145     		MOVAR		INTF			;; CLR TIMER0 FLAG
+                                    0-0146      ;		MOVIA		0x01
+                                    0-0147      ;		XORAR		PB, R
+       18 1819                      0- 148     		BSR			R_Flag, f_1ms
+                                    0-0149      
+                 19                 0- 150      	ISR_End:
+       19 1511                      0- 151     		SWAPR		R_Status_Buf, A		;; 取回 ACC	及 Status 的状态值
+       1A 0083                      0- 152     		MOVAR		STATUS
+       1B 1510                      0- 153     		SWAPR		R_ACC_Buf, A
+       1C 0011                      0- 154     		RETIE
+                                    0-0155      		
+                                    0-0156      ;; Main Program
+                                    0-0157      ;		ORG	0x10
+                 1D                 0- 158      Main_Prog:
+       1D 2B00                      0- 159     		LCALL		F_ClearAllRAM
+       1E 2B0A                      0- 160     		LCALL		F_IOInit
+                                    0-0161      
+       1F 2101                      0- 162     		MOVIA		0x01			;; ENABLE T0/T1 Interrupt
+       20 008E                      0- 163     		MOVAR		INTE
+                                    0-0164      		
+       21 0004                      0- 165     		ENI							;; Enable Goble Interrupt
+                                    0-0166      		
+                 22                 0- 167      Main_Prog10:
+                                    0-0168      ;; into High Frequency Mode
+       22 003F                      0- 169     		SFUNR		OSCCR			;; 读取目前震荡模式 
+                                    0-0170      		
+       23 22FD                      0- 171     		ANDIA		0xfd			;; 开启 Normal Mode 高速频率电路
+       24 002F                      0- 172     		SFUN		OSCCR
+       25 0000                      0- 172     NOP ;after sfun 0xF force NOP
+                                    0-0173      		
+       26 2301                      0- 174     		IORIA		0x01			;; Fosc切换到高速频率(H_IRC=4MHz/4T)
+       27 002F                      0- 175     		SFUN		OSCCR
+       28 0000                      0- 175     NOP ;after sfun 0xF force NOP
+                                    0-0176      		
+       29 2100                      0- 177     		MOVIA		0x00			;; 重新置入计数时间。中断时间为1.024ms
+       2A 0081                      0- 178     		MOVAR		TMR0
+                                    0-0179      		
+       2B 2100                      0- 180     		MOVIA		0x00
+       2C 0095                      0- 181     		MOVAR		R_Temp
+                                    0-0182      		
+                 2D                 0- 183      	Main_Prog100:
+       2D 0002                      0- 184     		CLRWDT
+       2E 0819                      0- 185     		BTRSS		R_Flag, f_1ms
+       2F 322D                      0- 186     		GOTO		Main_Prog100
+                                    0-0187      		
+       30 1C19                      0- 188     		BCR			R_Flag, f_1ms
+                                    0-0189      		
+       31 2102                      0- 190     		MOVIA		0x02
+       32 1286                      0- 191     		XORAR		PB, R
+                                    0-0192      		
+       33 1795                      0- 193     		DECRSZ		R_Temp, R
+       34 322D                      0- 194     		GOTO		Main_Prog100
+                                    0-0195      		
+                                    0-0196      ;; into Slow Frequency Mode & Disable High Frequency
+       35 003F                      0- 197     		SFUNR		OSCCR			;; 读取目前震荡模式
+                                    0-0198      		
+       36 22FE                      0- 199     		ANDIA		0xfe			;; 切换到低速频率(L_IRC=32KHz/4T)
+       37 002F                      0- 200     		SFUN		OSCCR
+       38 0000                      0- 200     NOP ;after sfun 0xF force NOP
+                                    0-0201      		
+       39 2202                      0- 202     		ANDIA		0x02			;; 关闭高频震荡
+       3A 002F                      0- 203     		SFUN		OSCCR
+       3B 0000                      0- 203     NOP ;after sfun 0xF force NOP
+                                    0-0204      		
+       3C 2100                      0- 205     		MOVIA		0x00			;; 重新置入计数时间。中断时间约128ms
+       3D 0081                      0- 206     		MOVAR		TMR0
+                                    0-0207      		
+       3E 2120                      0- 208     		MOVIA		32
+       3F 0095                      0- 209     		MOVAR		R_Temp
+                                    0-0210      		
+                 40                 0- 211      	Main_Prog300:
+       40 0002                      0- 212     		CLRWDT
+       41 0819                      0- 213     		BTRSS		R_Flag, f_1ms
+       42 3240                      0- 214     		GOTO		Main_Prog300
+                                    0-0215      		
+       43 1C19                      0- 216     		BCR			R_Flag, f_1ms
+                                    0-0217      		
+       44 2102                      0- 218     		MOVIA		0x02
+       45 1286                      0- 219     		XORAR		PB, R
+                                    0-0220      		
+       46 1795                      0- 221     		DECRSZ		R_Temp, R
+       47 3240                      0- 222     		GOTO		Main_Prog300
+                                    0-0223      
+       48 3222                      0- 224     		GOTO		Main_Prog10
+                                    0-0225      
+                300                 0- 226      		ORG			0x300
+                                    0-0227      ;==================================================================
+                                    0-0228      ; Project Name:	清零全部RAM
+                                    0-0229      ; Last Modify Date:2010-11-9 16:12
+                                    0-0230      ;
+                                    0-0231      ;;Clear	RAM 0x10~0x3f
+                300                 0- 232      F_ClearAllRAM:
+      300 212F                      0- 233     		MOVIA		0x2f
+      301 0090                      0- 234     		MOVAR		0x10
+      302 2111                      0- 235     		MOVIA		0X11
+      303 0084                      0- 236     		MOVAR		FSR
+                304                 0- 237      	L_Clear_Next_Byte:
+      304 0280                      0- 238     		CLRR		INDF
+      305 0584                      0- 239     		INCR		FSR, R
+      306 1790                      0- 240     		DECRSZ		10H, R
+      307 3B04                      0- 241     		LGOTO		L_Clear_Next_Byte
+      308 0284                      0- 242     		CLRR		FSR
+      309 0010                      0- 243     		RET
+                                    0-0244      
+                                    0-0245      ;		ORG		0x300
+                                    0-0246      ;====================================================================
+                                    0-0247      ; Project Name: IO 初始化
+                                    0-0248      ; Madify Data: 2014.12.11
+                                    0-0249      ;
+                30A                 0- 250      F_IOInit:
+      30A 21FF                      0- 251     		MOVIA		0xff
+      30B 0086                      0- 252     		MOVAR		PB				;; 初始值
+      30C 2100                      0- 253     		MOVIA		00000000
+      30D 0006                      0- 254     		IOST		PB				;; 设定为IO状态	0=Output,  1=Input
+                                    0-0255      		
+      30E 2180                      0- 256     		MOVIA		0x80			;; 设定为 WDT(B7)=1:EN/0:DIS, PB0(B6)=1:INT/0:GPIO, LVR(B3)=1:EN/0:DIS
+      30F 0088                      0- 257     		MOVAR		PCON
+                                    0-0258      
+                                    0-0259      ;====================================================================
+                                    0-0260      ; Project Name: Time0 初始化
+                                    0-0261      ; Madify Data: 2014.12.11
+                310                 0- 262      F_Timer0Set:
+      310 21FE                      0- 263     		MOVIA		0xFE
+      311 210F                      0- 264     		MOVIA		INTF			;; Clr Timer0 Flag
+      312 2101                      0- 265     		MOVIA		00000001
+      313 0003                      0- 266     		T0MD	
+      314 2100                      0- 267     		MOVIA		0x00
+      315 0081                      0- 268     		MOVAR		TMR0
+                                    0-0269      
+                                    0-0270      	
+                                    0-0271      ;====================================================================
+                                    0-0272      ; Project Name: Time1 初始化
+                                    0-0273      ; Madify Data: 2014.12.11
+                                    0-0274      ;		MOVIA		00000000
+                                    0-0275      ;		SFUN		T1CR1			;; Disale Timer1
+                                    0-0276      ;		MOVIA		0xF7
+                                    0-0277      ;		MOVIA		INTF			;; Clr Timer1 Flag
+                                    0-0278      ;		MOVIA		0x80
+                                    0-0279      ;		SFUN		TMR1
+                                    0-0280      ;		MOVIA		0x00
+                                    0-0281      ;;		SFUN		PWM1DUTY
+                                    0-0282      ;;		MOVIA		0x00
+                                    0-0283      ;		SFUN		T1CR2			;; P1SEl(B2:B0), PS1EN(B3):0(EN)/1(Dis), T1CE(B4):0:Low->Hi/1:hi->Low, T1CS(B5):0:Instruction CLK/1:Ext CLK
+                                    0-0284      ;;		MOVIA		0x00
+                                    0-0285      ;;		SFUN		BZ1CR
+                                    0-0286      ;		MOVIA		0x83			;; TIMER1(B0):1:EN/0:Dis, AUTO ReLoad(B1):1:En/0:Dis, PWM1oEN(B7):1:P2 is PWMO/0:P2 is GPIO
+                                    0-0287      ;		SFUN		T1CR1
+      316 0010                      0- 288     		RET
+                                    0-0289      
+                                    0-0290      		end
+
+ATASM 1.92 [Build 051515.00]  File=C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATW����Ƽ�ר������\�����������\DEMO CODE\AT8A513\H_L IRC CHANGE TEST\H_L IRC CHANGE TEST\H_L IRC CHANGE TEST.ASM Date=2015/7/17 17:54:53
+
+SYMBOL TABLE            TYPE     VALUE
+
+__8A051A                Constant 00000001
+__PROCESSOR__           Constant 00008000
+A                       Constant 00000000
+ABPLCON                 Constant 0000000B
+BOBCON                  Constant 0000000C
+BPHCON                  Constant 0000000C
+BWUCON                  Constant 00000009
+BZ1CR                   Constant 00000005
+C                       Constant 00000000
+DC                      Constant 00000001
+F                       Constant 00000001
+F_1MS                   Constant 00000000
+F_CLEARALLRAM           Label    00000300
+F_IOINIT                Label    0000030A
+F_TIMER0SET             Label    00000310
+FSR                     Constant 00000004
+GIE                     Constant 00000007
+INDF                    Constant 00000000
+INTE                    Constant 0000000E
+INTF                    Constant 0000000F
+INTIE                   Constant 00000002
+INTIF                   Constant 00000002
+IRCR                    Constant 00000006
+IRCSEL                  Constant 00000002
+IREN                    Constant 00000000
+IRF57K                  Constant 00000001
+IROSC358M               Constant 00000007
+ISR_END                 Label    00000019
+ISR_PROG                Label    00000010
+ISR_PROG100             Label    00000014
+L_CLEAR_NEXT_BYTE       Label    00000304
+MAIN_PROG               Label    0000001D
+MAIN_PROG10             Label    00000022
+MAIN_PROG100            Label    0000002D
+MAIN_PROG300            Label    00000040
+OPMD0                   Constant 00000002
+OPMD1                   Constant 00000003
+OSCCR                   Constant 0000000F
+PA                      Constant 00000005
+PB                      Constant 00000006
+PBIE                    Constant 00000001
+PBIF                    Constant 00000001
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+PCON                    Constant 00000008
+PCON1                   Constant 0000000F
+PS0CV                   Constant 0000000A
+PS1CV                   Constant 00000004
+PS1EN                   Constant 00000003
+PWM1DUTY                Constant 00000003
+PWM1OAL                 Constant 00000006
+PWM1OEN                 Constant 00000007
+R                       Constant 00000001
+R_ACC_BUF               Constant 00000010
+R_FLAG                  Constant 00000019
+R_ROLLCODE_BUF_H        Constant 00000014
+R_ROLLCODE_BUF_L        Constant 00000012
+R_ROLLCODE_BUF_M        Constant 00000013
+R_STATUS_BUF            Constant 00000011
+R_TEMP                  Constant 00000015
+R_TIME_BUF_H            Constant 00000016
+R_TIME_BUF_L            Constant 00000018
+R_TIME_BUF_M            Constant 00000017
+RESET                   Label    00000000
+SELHSC                  Constant 00000000
+STATUS                  Constant 00000003
+STPHOSC                 Constant 00000001
+T0EN                    Constant 00000000
+T0IE                    Constant 00000000
+T0IF                    Constant 00000000
+T1CE                    Constant 00000004
+T1CR1                   Constant 00000001
+T1CR2                   Constant 00000002
+T1CS                    Constant 00000005
+T1EN                    Constant 00000000
+T1IE                    Constant 00000003
+T1IF                    Constant 00000003
+T1OS                    Constant 00000002
+T1RL                    Constant 00000001
+TBHD                    Constant 00000008
+TBHP                    Constant 00000007
+TMR0                    Constant 00000001
+TMR1                    Constant 00000000
+W                       Constant 00000000
+WDTIE                   Constant 00000006
+WDTIF                   Constant 00000006
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+000 C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATW����Ƽ�ר������\�����������\DEMO CODE\AT8A513\H_L IRC CHANGE TEST\H_L IRC CHANGE TEST\H_L IRC CHANGE TEST.ASM
+
+PROCESSOR    = AT8A513 (8 bits) 
+PROGRAM ROM  = 0x00000000 - 0x000003FF
+DATA ROM     = 0x00000000 - 0x000003FF
+SRAM / SFR   = 0x00000000 - 0x00000000

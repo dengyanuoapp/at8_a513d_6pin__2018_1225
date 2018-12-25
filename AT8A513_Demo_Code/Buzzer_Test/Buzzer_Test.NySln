@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 1.02.0.707
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "Buzzer Test", "Buzzer Test\Buzzer Test.naprj", "{250E2458-FC7E-4F6E-A141-204A4A56E930}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{250E2458-FC7E-4F6E-A141-204A4A56E930}.Debug|Any.Build.0 = Debug|Any
+		{250E2458-FC7E-4F6E-A141-204A4A56E930}.Debug|Any.ActiveCfg = Debug|Any
+		{250E2458-FC7E-4F6E-A141-204A4A56E930}.Release|Any.Build.0 = Release|Any
+		{250E2458-FC7E-4F6E-A141-204A4A56E930}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

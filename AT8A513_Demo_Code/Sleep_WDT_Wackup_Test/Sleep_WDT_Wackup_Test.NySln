@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "Sleep WDT_Wackup Test", "Sleep WDT_Wackup Test\Sleep WDT_Wackup Test.naprj", "{1BE3F47C-480A-4A0A-AC1E-B00C77CF42D4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1BE3F47C-480A-4A0A-AC1E-B00C77CF42D4}.Debug|Any.Build.0 = Debug|Any
+		{1BE3F47C-480A-4A0A-AC1E-B00C77CF42D4}.Debug|Any.ActiveCfg = Debug|Any
+		{1BE3F47C-480A-4A0A-AC1E-B00C77CF42D4}.Release|Any.Build.0 = Release|Any
+		{1BE3F47C-480A-4A0A-AC1E-B00C77CF42D4}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

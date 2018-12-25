@@ -1,0 +1,266 @@
+
+                    AT Win Technology Co., Ltd.
+
+ATASM 1.92 [Build 051515.00]  File=C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATWƒœœËø∆ºº◊®∞∏◊ ¡œ\æ≈∆Îœ‡πÿ◊ ¡œ\DEMO CODE\AT8A513\IO TEST\IO TEST\IO TEST.ASM Date=2015/6/29 15:06:00
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    0-0001        ; =========================================================================
+                                    0-0002      ; Created by ATW.
+                                    0-0003      ; User: VincentLin
+                                    0-0004      ; Date: 2014/12/13
+                                    0-0005      ; Time: 16:51
+                                    0-0006      ; =========================================================================
+                                    0-0007      ; Chip Register Define
+                                    0-0008      ;; Register R
+                  0                 0-   9      		INDF		EQU		0x00
+                  1                 0-  10      		TMR0		EQU		0x01
+                  2                 0-  11      		PCL		EQU		0x02
+                                    0-0012      		
+                  3                 0-  13      		STATUS		EQU		0x03
+                  0                 0-  14      			C		EQU		0
+                  1                 0-  15      			DC		EQU		1
+                  2                 0-  16      			Z		EQU		2
+                                    0-0017      ;			PD		EQU		3
+                                    0-0018      ;			TO		EQU		4
+                                    0-0019      			
+                  4                 0-  20      		FSR		EQU		0x04
+                  5                 0-  21      		PA		EQU		0x05
+                  6                 0-  22      		PB		EQU		0x06
+                  8                 0-  23      		PCON		EQU		0x08
+                  9                 0-  24      		BWUCON		EQU		0x09
+                  A                 0-  25      		PCHBUF		EQU		0x0A
+                  B                 0-  26      		ABPLCON		EQU		0x0B
+                  C                 0-  27      		BPHCON		EQU		0x0C
+                                    0-0028      		
+                  E                 0-  29      		INTE		EQU		0x0E
+                  0                 0-  30      			T0IE	EQU		0
+                  1                 0-  31      			PBIE	EQU		1
+                  2                 0-  32      			INTIE	EQU		2
+                  3                 0-  33      			T1IE	EQU		3
+                  6                 0-  34      			WDTIE	EQU		6
+                                    0-0035      			
+                  F                 0-  36      		INTF		EQU		0x0f
+                  0                 0-  37      			T0IF	EQU		0
+                  1                 0-  38      			PBIF	EQU		1
+                  2                 0-  39      			INTIF	EQU		2
+                  3                 0-  40      			T1IF	EQU		3
+                  6                 0-  41      			WDTIF	EQU		6
+                                    0-0042      
+                                    0-0043      ;; Register F
+                  A                 0-  44      		PS0CV		EQU		0x0a
+                  C                 0-  45      		BOBCON		EQU		0x0c
+                                    0-0046      		
+                  F                 0-  47      		PCON1		EQU		0x0f
+                  0                 0-  48      			T0EN	EQU		0
+                  7                 0-  49      			GIE	EQU		7
+                                    0-0050      		
+                                    0-0051      ;; Register S
+                  0                 0-  52      		TMR1		EQU		0x00
+                                    0-0053      		
+                  1                 0-  54      		T1CR1		EQU		0x01
+                  0                 0-  55      			T1EN	EQU		0
+                  1                 0-  56      			T1RL	EQU		1
+                  2                 0-  57      			T1OS	EQU		2
+                                    0-0058      			
+                  6                 0-  59      			PWM1OAL	EQU		6
+                  7                 0-  60      			PWM1OEN	EQU		7
+                                    0-0061      			
+                  2                 0-  62      		T1CR2		EQU		0x02
+                  3                 0-  63      			PS1EN	EQU		3
+                  4                 0-  64      			T1CE	EQU		4
+                  5                 0-  65      			T1CS	EQU		5
+                                    0-0066      			
+                  3                 0-  67      		PWM1DUTY	EQU		0x03
+                  4                 0-  68      		PS1CV		EQU		0x04
+                  5                 0-  69      		BZ1CR		EQU		0x05
+                                    0-0070      		
+                  6                 0-  71      		IRCR		EQU		0x06
+                  0                 0-  72      			IREN		EQU	0
+                  1                 0-  73      			IRF57K		EQU	1
+                  2                 0-  74      			IRCSEL		EQU	2
+                  7                 0-  75      			IROSC358M	EQU	7
+                                    0-0076      			
+                  7                 0-  77      		TBHP		EQU		0x07
+                  8                 0-  78      		TBHD		EQU		0x08
+                                    0-0079      		
+                  F                 0-  80      		OSCCR		EQU		0x0f
+                  0                 0-  81      			SELHSC	EQU		0
+                  1                 0-  82      			STPHOSC	EQU		1
+                  2                 0-  83      			OPMD0	EQU		2
+                  3                 0-  84      			OPMD1	EQU		3
+                                    0-0085      
+                  1                 0-  86      		f			EQU		1
+                  1                 0-  87      		R			EQU		1
+                  0                 0-  88      		W			EQU		0
+                  0                 0-  89      		A			EQU		0
+                                    0-0090      		
+                                    0-0091      ;; User Register Define (0x10~0x3F)
+                 10                 0-  92      	R_ACC_Buf	EQU		0x10
+                 11                 0-  93      	R_Status_Buf	EQU		0x11
+                                    0-0094      
+                                    0-0095      		
+                                    0-0096      		
+                                    0-0097      
+                                    0-0098      ;; Chip Reset Vector
+                                    0-0099      ; ===============================================================
+                  0                 0- 100      		ORG	0x00
+                  0                 0- 101      Reset:
+        0 3210                      0- 102     		GOTO	Main_Prog
+                                    0-0103      
+                                    0-0104      ;; ISR Vector
+                  8                 0- 105      		ORG	0x08
+                  8                 0- 106      ISR_Prog:
+        8 0090                      0- 107     		MOVAR		R_ACC_Buf			;; ‰øùÁïô ACC Âèä Status ÁöÑÁä∂ÊÄÅÂÄº
+        9 1590                      0- 108     		SWAPR		R_ACC_Buf, R
+        A 1503                      0- 109     		SWAPR		STATUS, A
+        B 0091                      0- 110     		MOVAR		R_Status_Buf
+                                    0-0111      
+                  C                 0- 112      	ISR_End:
+        C 1511                      0- 113     		SWAPR		R_Status_Buf, A		;; ÂèñÂõû ACC	Âèä Status ÁöÑÁä∂ÊÄÅÂÄº
+        D 0083                      0- 114     		MOVAR		STATUS
+        E 1510                      0- 115     		SWAPR		R_ACC_Buf, A
+        F 0011                      0- 116     		RETIE
+                                    0-0117      		
+                                    0-0118      		
+                                    0-0119      
+                                    0-0120      ;; Main Program
+                                    0-0121      ;		ORG	0x10
+                 10                 0- 122      Main_Prog:
+       10 2816                      0- 123     		LCALL		F_ClearAllRAM
+       11 2820                      0- 124     		LCALL		F_IOInit
+                                    0-0125      	
+                 12                 0- 126      Main_Start:
+       12 0002                      0- 127     		CLRWDT
+       13 21FF                      0- 128     		MOVIA		0xff
+       14 1286                      0- 129     		XORAR		PB, R
+                                    0-0130      ;		XORAR		PA, R
+       15 3212                      0- 131     		GOTO		Main_Start
+                                    0-0132      
+                                    0-0133      ;==================================================================
+                                    0-0134      ; Project Name:	Ê∏ÖÈõ∂ÂÖ®ÈÉ®RAM
+                                    0-0135      ; Last Modify Date:2010-11-9 16:12
+                                    0-0136      ;
+                                    0-0137      ;;Clear	RAM 0x10~0x3f
+                 16                 0- 138      F_ClearAllRAM:
+       16 212F                      0- 139     		MOVIA		0x2f
+       17 0090                      0- 140     		MOVAR		0x10
+       18 2111                      0- 141     		MOVIA		0X11
+       19 0084                      0- 142     		MOVAR		FSR
+                 1A                 0- 143      	L_Clear_Next_Byte:
+       1A 0280                      0- 144     		CLRR		INDF
+       1B 0584                      0- 145     		INCR		FSR, R
+       1C 1790                      0- 146     		DECRSZ		10H, R
+       1D 381A                      0- 147     		LGOTO		L_Clear_Next_Byte
+       1E 0284                      0- 148     		CLRR		FSR
+       1F 0010                      0- 149     		RET
+                                    0-0150      
+                                    0-0151      ;====================================================================
+                                    0-0152      ; Project Name: IO ÂàùÂßãÂåñ
+                                    0-0153      ; Madify Data: 2014.12.11
+                                    0-0154      ;
+                 20                 0- 155      F_IOInit:
+       20 21FF                      0- 156     		MOVIA		0xff
+       21 0086                      0- 157     		MOVAR		PB				;; ÂàùÂßãÂÄº
+       22 2100                      0- 158     		MOVIA		00000000
+       23 0006                      0- 159     		IOST		PB				;; ËÆæÂÆö‰∏∫IOÁä∂ÊÄÅ	0=Output,  1=Input
+                                    0-0160      
+                                    0-0161      ;		MOVIA		0xff		
+                                    0-0162      ;		MOVAR		PA
+                                    0-0163      ;		MOVIA		00000000			;; ËÆæÂÆö‰∏∫IOÁä∂ÊÄÅ	0=Output,  1=Input
+                                    0-0164      ;		IOST		PA
+                                    0-0165      		
+       24 2180                      0- 166     		MOVIA		0x80				;; ËÆæÂÆö‰∏∫ WDT(B7)=1:EN/0:DIS, PB0(B6)=1:INT/0:GPIO, LVR(B3)=1:EN/0:DIS
+       25 0088                      0- 167     		MOVAR		PCON
+       26 0010                      0- 168     		RET
+                                    0-0169      
+                                    0-0170      
+                                    0-0171      		end
+
+ATASM 1.92 [Build 051515.00]  File=C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATWƒœœËø∆ºº◊®∞∏◊ ¡œ\æ≈∆Îœ‡πÿ◊ ¡œ\DEMO CODE\AT8A513\IO TEST\IO TEST\IO TEST.ASM Date=2015/6/29 15:06:00
+
+SYMBOL TABLE            TYPE     VALUE
+
+__8A051A                Constant 00000001
+__PROCESSOR__           Constant 00008000
+A                       Constant 00000000
+ABPLCON                 Constant 0000000B
+BOBCON                  Constant 0000000C
+BPHCON                  Constant 0000000C
+BWUCON                  Constant 00000009
+BZ1CR                   Constant 00000005
+C                       Constant 00000000
+DC                      Constant 00000001
+F                       Constant 00000001
+F_CLEARALLRAM           Label    00000016
+F_IOINIT                Label    00000020
+FSR                     Constant 00000004
+GIE                     Constant 00000007
+INDF                    Constant 00000000
+INTE                    Constant 0000000E
+INTF                    Constant 0000000F
+INTIE                   Constant 00000002
+INTIF                   Constant 00000002
+IRCR                    Constant 00000006
+IRCSEL                  Constant 00000002
+IREN                    Constant 00000000
+IRF57K                  Constant 00000001
+IROSC358M               Constant 00000007
+ISR_END                 Label    0000000C
+ISR_PROG                Label    00000008
+L_CLEAR_NEXT_BYTE       Label    0000001A
+MAIN_PROG               Label    00000010
+MAIN_START              Label    00000012
+OPMD0                   Constant 00000002
+OPMD1                   Constant 00000003
+OSCCR                   Constant 0000000F
+PA                      Constant 00000005
+PB                      Constant 00000006
+PBIE                    Constant 00000001
+PBIF                    Constant 00000001
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+PCON                    Constant 00000008
+PCON1                   Constant 0000000F
+PS0CV                   Constant 0000000A
+PS1CV                   Constant 00000004
+PS1EN                   Constant 00000003
+PWM1DUTY                Constant 00000003
+PWM1OAL                 Constant 00000006
+PWM1OEN                 Constant 00000007
+R                       Constant 00000001
+R_ACC_BUF               Constant 00000010
+R_STATUS_BUF            Constant 00000011
+RESET                   Label    00000000
+SELHSC                  Constant 00000000
+STATUS                  Constant 00000003
+STPHOSC                 Constant 00000001
+T0EN                    Constant 00000000
+T0IE                    Constant 00000000
+T0IF                    Constant 00000000
+T1CE                    Constant 00000004
+T1CR1                   Constant 00000001
+T1CR2                   Constant 00000002
+T1CS                    Constant 00000005
+T1EN                    Constant 00000000
+T1IE                    Constant 00000003
+T1IF                    Constant 00000003
+T1OS                    Constant 00000002
+T1RL                    Constant 00000001
+TBHD                    Constant 00000008
+TBHP                    Constant 00000007
+TMR0                    Constant 00000001
+TMR1                    Constant 00000000
+W                       Constant 00000000
+WDTIE                   Constant 00000006
+WDTIF                   Constant 00000006
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+000 C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATWƒœœËø∆ºº◊®∞∏◊ ¡œ\æ≈∆Îœ‡πÿ◊ ¡œ\DEMO CODE\AT8A513\IO TEST\IO TEST\IO TEST.ASM
+
+PROCESSOR    = AT8A513 (8 bits) 
+PROGRAM ROM  = 0x00000000 - 0x000003FF
+DATA ROM     = 0x00000000 - 0x000003FF
+SRAM / SFR   = 0x00000000 - 0x00000000

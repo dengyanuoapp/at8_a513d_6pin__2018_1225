@@ -1,0 +1,838 @@
+
+                    AT Win Technology Co., Ltd.
+
+ATWASM 2.13 [Build 180301.00]  File=C:\Users\USER\Documents\ATW\ATW南翔科技专案资料\九齐相关资料\Demo Code\AT8B62D\LVD Demo Code\LVD Demo Code\LVD Demo Code.asm Date=2018/3/24 11:10:19
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    0-0001      ; =========================================================================
+                                    0-0002      ; Created by ATW.
+                                    0-0003      ; User: VincentLin
+                                    0-0004      ; Date: 2016/02/27
+                                    0-0005      ; Time: 13:44
+                                    0-0006      ; 说明：PA1~PA3为LVD设定参考输入。
+                                    0-0007      ;	若vdd电压低于设定参考电压，则PB1输出Low。反之为Hi
+                                    0-0008      ;	PB3为 LVDT 中断标志位产生后转态输出。
+                                    0-0009      ;   PS：此功能无法在访真器上模拟。
+                                    0-0010      ; =========================================================================
+                                    0-0011      	#include	AT8B62D.h
+                                    1-0001      ; Chip Register Define
+                                    1-0002      ;; Register R
+                  0                 1-   3      		INDF		EQU	0x00
+                  1                 1-   4      		TMR0		EQU	0x01
+                  2                 1-   5      		PCL		EQU	0x02
+                                    1-0006      		
+                  3                 1-   7      		STATUS		EQU	0x03
+                  0                 1-   8      			C_B	= 0
+                  1                 1-   9      			DC_B	= 1
+                  2                 1-  10      			Z_B	= 2
+                  3                 1-  11      			PD_B	= 3
+                  4                 1-  12      			TO_B	= 4
+                                    1-0013      			
+                  6                 1-  14      			BK0_B	= 6
+                  7                 1-  15      			BK1_B	= 7
+                                    1-0016      			
+                  4                 1-  17      		FSR		EQU	0x04
+                                    1-0018      			
+                  5                 1-  19      		PA		EQU	0x05
+                  0                 1-  20      			PA0_B	= 0
+                  1                 1-  21      			PA1_B	= 1
+                  2                 1-  22      			PA2_B	= 2
+                  3                 1-  23      			PA3_B	= 3
+                  4                 1-  24      			PA4_B	= 4
+                  5                 1-  25      			PA5_B	= 5
+                  6                 1-  26      			PA6_B	= 6
+                  7                 1-  27      			PA7_B	= 7
+                                    1-0028      			
+                  6                 1-  29      		PB		EQU	0x06
+                  0                 1-  30      			PB0_B	= 0
+                  1                 1-  31      			PB1_B	= 1
+                  2                 1-  32      			PB2_B	= 2
+                  3                 1-  33      			PB3_B	= 3
+                  4                 1-  34      			PB4_B	= 4
+                  5                 1-  35      			PB5_B	= 5
+                  6                 1-  36      			PB6_B	= 6
+                  7                 1-  37      			PB7_B	= 7
+                                    1-0038      		
+                  8                 1-  39      		PCON		EQU	0x08
+                  3                 1-  40      			LVREN_B	= 3
+                  4                 1-  41      			PHPA5_B	= 4
+                  5                 1-  42      			LVDEN_B	= 5
+                  7                 1-  43      			WDTEN_B	= 7
+                                    1-0044      			
+                  9                 1-  45      		BWUCON		EQU	0x09
+                                    1-0046      		
+                  A                 1-  47      		PCHBUF		EQU	0x0A
+                  6                 1-  48      			XSPD_STP_B	= 6
+                                    1-0049      			
+                  B                 1-  50      		ABPLCON		EQU	0x0B
+                  C                 1-  51      		BPHCON		EQU	0x0C
+                                    1-0052      		
+                  E                 1-  53      		INTE		EQU	0x0E
+                  0                 1-  54      			T0IE_B		= 0 
+                  1                 1-  55      			PABIE_B		= 1
+                  2                 1-  56      			INT0IE_B	= 2
+                  3                 1-  57      			T1IE_B		= 3
+                  4                 1-  58      			LVDTIE_B	= 4
+                  5                 1-  59      			T2IE_B		= 5
+                  6                 1-  60      			WDTIE_B		= 6
+                  7                 1-  61      			INT1IE_B	= 7
+                                    1-0062      			
+                  F                 1-  63      		INTF		EQU	0x0f
+                  0                 1-  64      			T0IF_B		= 0
+                  1                 1-  65      			PABIF_B		= 1
+                  2                 1-  66      			INT0IF_B	= 2
+                  3                 1-  67      			T1IF_B		= 3
+                  4                 1-  68      			LVDTIF_B	= 4
+                  5                 1-  69      			T2IF_B		= 5
+                  6                 1-  70      			WDTIF_B		= 6
+                  7                 1-  71      			INT2IF_B	= 7
+                                    1-0072      		
+                 10                 1-  73      		ADMD		EQU	0x10
+                  0                 1-  74      			CHS0_B		= 0
+                  1                 1-  75      			CHS1_B		= 1
+                  2                 1-  76      			CHS2_B		= 2
+                  3                 1-  77      			CHS3_B		= 3
+                  4                 1-  78      			GCHS_B		= 4
+                  5                 1-  79      			EOC_B		= 5
+                  6                 1-  80      			START_B		= 6
+                  7                 1-  81      			ADEN_B		= 7
+                                    1-0082      		
+                 11                 1-  83      		ADR		EQU	0x11
+                  0                 1-  84      			AD0_B		= 0
+                  1                 1-  85      			AD1_B		= 1
+                  2                 1-  86      			AD2_B		= 2
+                  3                 1-  87      			AD3_B		= 3
+                  4                 1-  88      			ADCK0_B		= 4
+                  5                 1-  89      			ADCK1_B		= 5
+                  6                 1-  90      			ADIE_B		= 6
+                  7                 1-  91      			ADIF_B		= 7
+                                    1-0092      		
+                 12                 1-  93      		ADD		EQU	0x12
+                                    1-0094      		
+                 13                 1-  95      		ADVREFH		EQU	0x13
+                  0                 1-  96      			VHS0_B		= 0
+                  1                 1-  97      			VHS1_B		= 1
+                                    1-0098      			
+                  7                 1-  99      			EVHENB_B	= 7
+                                    1-0100      		
+                 14                 1- 101      		ADCR		EQU	0x14
+                  0                 1- 102      			ADCR0_B		= 0
+                  1                 1- 103      			ADCR1_B		= 1
+                  2                 1- 104      			SHCK0_B		= 2
+                  3                 1- 105      			SHCK1_B		= 3
+                  4                 1- 106      			PBCON4_B	= 4
+                  5                 1- 107      			PBCON4_B	= 5
+                  6                 1- 108      			PBCON4_B	= 6
+                                    1-0109      		
+                 15                 1- 110      		AWUCON		EQU	0x15
+                  0                 1- 111      			WUPA0_B		= 0
+                  1                 1- 112      			WUPA1_B		= 1
+                  2                 1- 113      			WUPA2_B		= 2
+                  3                 1- 114      			WUPA3_B		= 3		
+                  4                 1- 115      			WUPA4_B		= 4
+                  5                 1- 116      			WUPA5_B		= 5
+                  6                 1- 117      			WUPA6_B		= 6
+                  7                 1- 118      			WUPA7_B		= 7	
+                                    1-0119      		
+                 16                 1- 120      		PACON		EQU	0x16
+                  0                 1- 121      			PACON0_B	= 0
+                  1                 1- 122      			PACON1_B	= 1
+                  2                 1- 123      			PACON2_B	= 2
+                  3                 1- 124      			PACON3_B	= 3
+                  4                 1- 125      			PACON4_B	= 4
+                  5                 1- 126      			PBCON0_B	= 5
+                  6                 1- 127      			PBCON1_B	= 6
+                  7                 1- 128      			PBCON2_B	= 7
+                                    1-0129      		
+                                    1-0130      ;		ADT		EQU	0x17
+                                    1-0131      ;			ADT0_B		= 0	
+                                    1-0132      ;			ADT1_B		= 1
+                                    1-0133      ;			ADT2_B		= 2
+                                    1-0134      ;			ADT3_B		= 3
+                                    1-0135      ;			ADT4_B		= 4
+                                    1-0136      ;			SIGN_B		= 5
+                                    1-0137      ;			CALE_B		= 6
+                                    1-0138      ;			CALS_B		= 7
+                                    1-0139      		
+                 18                 1- 140      		INTEDG		EQU	0x18
+                  0                 1- 141      			INT0G0_B	= 0
+                  1                 1- 142      			INT0G1_B	= 1
+                  2                 1- 143      			INT1G0_B	= 2
+                  3                 1- 144      			INT1G1_B	= 3
+                  4                 1- 145      			EIS0_B		= 4
+                  5                 1- 146      			EIS1_B		= 5
+                                    1-0147      		
+                 19                 1- 148      		TMRH		EQU	0x19
+                  0                 1- 149      			PWM1DUTY8_B	= 0
+                  1                 1- 150      			PWM1DUTY9_B	= 1
+                  2                 1- 151      			PWM2DUTY8_B	= 2
+                  3                 1- 152      			PWM2DUTY9_B	= 3
+                  4                 1- 153      			TMR18_B		= 4
+                  5                 1- 154      			TMR19_B		= 5
+                  6                 1- 155      			TMR28_B		= 6
+                  7                 1- 156      			TMR29_B		= 7
+                                    1-0157      		
+                 1A                 1- 158      		ANAEN		EQU	0x1a
+                  7                 1- 159      			CMPEN_B		= 7
+                                    1-0160      		
+                 1B                 1- 161      		RFC		EQU	0x1b
+                  0                 1- 162      			PSEL0_B		= 0
+                  1                 1- 163      			PSEL1_B		= 1
+                  2                 1- 164      			PSEL2_B		= 2
+                  3                 1- 165      			PSEL3_B		= 3
+                                    1-0166      		
+                  7                 1- 167      			RFCEN_B		= 7
+                                    1-0168      			
+                 1C                 1- 169      		TM3RH		EQU	0x1c
+                  0                 1- 170      			PWM3D8_B	= 0
+                  1                 1- 171      			PWM3D9_B	= 1
+                                    1-0172      			
+                  4                 1- 173      			TMR38_B		= 4
+                  5                 1- 174      			TMR39_B		= 5
+                                    1-0175      		
+                 1F                 1- 176      		INTE2		EQU	0x1f
+                  0                 1- 177      			T3IE_B		= 0
+                                    1-0178      			
+                  4                 1- 179      			T3IF_B		= 4
+                                    1-0180      
+                                    1-0181      ;; T0MD Register
+                  0                 1- 182      			PS0SEL0_B	= 0
+                  1                 1- 183      			PS0SEL1_B	= 1
+                  2                 1- 184      			PS0SEL2_B	= 2
+                  3                 1- 185      			PS0WDT_B	= 3
+                  4                 1- 186      			T0CE_B		= 4
+                  5                 1- 187      			T0CS_B		= 5
+                                    1-0188      			
+                  7                 1- 189      			LCKTM0_B	= 7	
+                                    1-0190      		
+                                    1-0191      
+                                    1-0192      ;; Register F
+                  5                 1- 193      		IOSTA		EQU	0x05
+                  6                 1- 194      		IOSTB		EQU	0x06
+                  9                 1- 195      		APHCON		EQU	0x09
+                                    1-0196      		
+                  A                 1- 197      		PS0CV		EQU	0x0a
+                  C                 1- 198      		BOBCON		EQU	0x0c
+                                    1-0199      		
+                  E                 1- 200      		CMPCR		EQU	0x0e
+                                    1-0201      		
+                  F                 1- 202      		PCON1		EQU	0x0f
+                  0                 1- 203      			T0EN_B		= 0
+                                    1-0204      			
+                  2                 1- 205      			LVDS0_B		= 2
+                  3                 1- 206      			LVDS1_B		= 3
+                  4                 1- 207      			LVDS2_B		= 4
+                                    1-0208      			
+                  6                 1- 209      			LVDOUT_B	= 6
+                  7                 1- 210      			GIE_B		= 7
+                                    1-0211      		
+                                    1-0212      ;; Register S
+                  0                 1- 213      		TMR1		EQU	0x00
+                                    1-0214      		
+                  1                 1- 215      		T1CR1		EQU	0x01
+                  0                 1- 216      			T1EN_B		= 0
+                  1                 1- 217      			T1RL_B		= 1
+                  2                 1- 218      			T1OS_B		= 2
+                                    1-0219      			
+                  6                 1- 220      			PWM1OAL_B	= 6
+                  7                 1- 221      			PWM1OEN_B	= 7
+                                    1-0222      			
+                  2                 1- 223      		T1CR2		EQU	0x02
+                  0                 1- 224      			PS1SEL0_B	= 0
+                  1                 1- 225      			PS1SEL1_B	= 1
+                  2                 1- 226      			PS1SEl2_B	= 2
+                  3                 1- 227      			PS1EN_B		= 3
+                  4                 1- 228      			T1CE_B		= 4
+                  5                 1- 229      			T1CS_B		= 5
+                                    1-0230      			
+                  3                 1- 231      		PWM1DUTY	EQU	0x03
+                  4                 1- 232      		PS1CV		EQU	0x04
+                  5                 1- 233      		BZ1CR		EQU	0x05
+                  0                 1- 234      			BZ1FSEL0_B	= 0
+                  1                 1- 235      			BZ1FSEL1_B	= 1
+                  2                 1- 236      			BZ1FSEL2_B	= 2
+                  3                 1- 237      			BZ1FSEL3_B	= 3
+                                    1-0238      			
+                  7                 1- 239      			BZ1EN_B		= 7
+                                    1-0240      		
+                  6                 1- 241      		IRCR		EQU	0x06
+                  0                 1- 242      			IREN_B		= 0
+                  1                 1- 243      			IRF57K_B	= 1
+                  2                 1- 244      			IRCSEL_B	= 2
+                                    1-0245      			
+                  7                 1- 246      			IROSC358M_B	= 7
+                                    1-0247      			
+                  7                 1- 248      		TBHP		EQU	0x07
+                  8                 1- 249      		TBHD		EQU	0x08
+                                    1-0250      
+                  9                 1- 251      		TMR2		EQU	0x09
+                                    1-0252      		
+                  A                 1- 253      		T2CR1		EQU	0x0A
+                  0                 1- 254      			T2EN_B		= 0
+                  1                 1- 255      			T2RL_B		= 1
+                  2                 1- 256      			T2OS_B		= 2
+                                    1-0257      			
+                  6                 1- 258      			PWM2OAL_B	= 6
+                  7                 1- 259      			PWM2OEN_B	= 7
+                                    1-0260      			
+                  B                 1- 261      		T2CR2		EQU	0x0B
+                  0                 1- 262      			PS2SEL0_B	= 0
+                  1                 1- 263      			PS2SEL1_B	= 1
+                  2                 1- 264      			PS2SEl2_B	= 2
+                  3                 1- 265      			PS2EN_B		= 3
+                  4                 1- 266      			T2CE_B		= 4
+                  5                 1- 267      			T2CS_B		= 5
+                                    1-0268      
+                  C                 1- 269      		PWM2DUTY	EQU	0x0C
+                  D                 1- 270      		PS2CV		EQU	0x0D
+                                    1-0271      		
+                  E                 1- 272      		BZ2CR		EQU	0x0E
+                  0                 1- 273      			BZ2FSEL0_B	= 0
+                  1                 1- 274      			BZ2FSEL1_B	= 1
+                  2                 1- 275      			BZ2FSEL2_B	= 2
+                  3                 1- 276      			BZ2FSEL3_B	= 3
+                                    1-0277      			
+                  7                 1- 278      			BZ2EN_B		= 7
+                                    1-0279      			
+                  F                 1- 280      		OSCCR		EQU	0x0f
+                  0                 1- 281      			SELHSC_B	= 0
+                  1                 1- 282      			STPHOSC_B	= 1
+                  2                 1- 283      			OPMD0_B		= 2
+                  3                 1- 284      			OPMD1_B		= 3
+                  4                 1- 285      			CMPIE_B		= 4
+                  5                 1- 286      			CMPIF_B		= 5
+                  6                 1- 287      			CMPOE_B		= 6
+                  7                 1- 288      			CMPOUT_B	= 7
+                                    1-0289      		
+                 10                 1- 290      		TMR3		EQU	0x10
+                                    1-0291      		
+                 11                 1- 292      		T3CR1		EQU	0x11
+                  0                 1- 293      			T3EN_B		= 0
+                  1                 1- 294      			T3RL_B		= 1
+                  2                 1- 295      			T3OS_B		= 2
+                                    1-0296      			
+                  6                 1- 297      			PWM3OAL_B	= 6
+                  7                 1- 298      			PWM3OEN_B	= 7
+                                    1-0299      		
+                 12                 1- 300      		T3CR2		EQU	0x12
+                  0                 1- 301      			PS3SEL0_B	= 0
+                  1                 1- 302      			PS3SEL1_B	= 1
+                  2                 1- 303      			PS3SEL2_B	= 2
+                  3                 1- 304      			PS3EN_B		= 3
+                  4                 1- 305      			T3CE_B		= 4
+                  5                 1- 306      			T3CS_B		= 5
+                                    1-0307      		
+                 13                 1- 308      		PWM3DUTY	EQU	0x13
+                                    1-0309      		
+                 14                 1- 310      		PS3CV		EQU	0x14
+                                    1-0311      		
+                 15                 1- 312      		BZ3CR		EQU	0x15
+                  0                 1- 313      			BZ3FSEL0_B	= 0
+                  1                 1- 314      			BZ3FSEL1_B	= 1
+                  2                 1- 315      			BZ3FSEL2_B	= 2
+                  3                 1- 316      			BZ3FSEL3_B	= 3
+                                    1-0317      			
+                  7                 1- 318      			BZ3EN_B		= 7
+                                    1-0319      		
+                                    1-0320      		
+                                    1-0321      	
+                                    1-0322      
+                  1                 1- 323      		f	= 1
+                  1                 1- 324      		R	= 1
+                  0                 1- 325      		W	= 0
+                  0                 1- 326      		A	= 0
+                                    0-0012      			
+                                    0-0013      ;; User Register Define (0x20~0x7F)
+                 20                 0-  14      	R_ACC_Buf	EQU		0x20
+                 21                 0-  15      	R_Status_Buf	EQU		0x21
+                 22                 0-  16      	R_flag		EQU		0x22
+                  0                 0-  17      		f_1ms		= 0
+                  1                 0-  18      		f_Sleep		= 1
+                  2                 0-  19      		f_Key		= 2
+                 23                 0-  20      	R_KeyCount	EQU		0x23
+                 24                 0-  21      	R_KeyTemp	EQU		0x24
+                 25                 0-  22      	R_KeyData	EQU		0x25
+                 26                 0-  23      	R_KeyOldData	EQU		0x26
+                 27                 0-  24      	R_LVD_Temp	EQU		0x27
+                 28                 0-  25      	R_Temp		EQU		0x28
+                                    0-0026      		
+                                    0-0027      		
+                                    0-0028      
+                                    0-0029      ;; Chip Reset Vector
+                                    0-0030      ; ===============================================================
+                  0                 0-  31      		ORG	0x00
+                  0                 0-  32      Reset:
+        0 321D                      0-  33     		GOTO	Main_Prog
+                                    0-0034      
+                                    0-0035      ;; ISR Vector
+                  8                 0-  36      		ORG	0x08
+                  8                 0-  37      ISR_Prog:
+        8 00A0                      0-  38     		MOVAR		R_ACC_Buf			;; 保留 ACC 及 Status 的状态值
+        9 15A0                      0-  39     		SWAPR		R_ACC_Buf, R
+        A 1503                      0-  40     		SWAPR		STATUS, A
+        B 00A1                      0-  41     		MOVAR		R_Status_Buf
+                                    0-0042      	
+                  C                 0-  43      	ISR_Prog100:
+        C 080F                      0-  44     		BTRSS		INTF, T0IF_B
+        D 3213                      0-  45     		GOTO		ISR_Program900
+                                    0-0046      
+        E 21FE                      0-  47     		MOVIA		0xFE
+        F 008F                      0-  48     		MOVAR		INTF			;; CLR TIMER0 FLAG
+       10 2101                      0-  49     		MOVIA		0x01
+       11 1286                      0-  50     		XORAR		PB, R
+       12 1822                      0-  51     		BSR		R_Flag, f_1ms
+                                    0-0052      
+                 13                 0-  53      	ISR_Program900:
+       13 0A0F                      0-  54     		BTRSS		INTF, LVDTIF_B
+       14 3219                      0-  55     		GOTO		ISR_End
+       15 21EF                      0-  56     		MOVIA		0xEF			;; CLR LVDT Flag
+       16 008F                      0-  57     		MOVAR		INTF
+       17 2108                      0-  58     		MOVIA		0x08
+       18 1286                      0-  59     		XORAR		PB, R
+                                    0-0060      
+                 19                 0-  61      	ISR_End:
+       19 1521                      0-  62     		SWAPR		R_Status_Buf, A		;; 取回 ACC	及 Status 的状态值
+       1A 0083                      0-  63     		MOVAR		STATUS
+       1B 1520                      0-  64     		SWAPR		R_ACC_Buf, A
+       1C 0011                      0-  65     		RETIE
+                                    0-0066      		
+                                    0-0067      		
+                                    0-0068      
+                                    0-0069      ;; Main Program
+                 1D                 0-  70      Main_Prog:
+       1D 285C                      0-  71     		LCALL		F_ClearAllRAM
+       1E 2863                      0-  72     		LCALL		F_IOInit
+                                    0-0073      		
+       1F 2100                      0-  74     		MOVIA		0x00
+       20 008F                      0-  75     		MOVAR		INTF			;; 清除所有中断标志位
+       21 2111                      0-  76     		MOVIA		0x11			;; ENABLE T0/LVDT Interrupt
+       22 008E                      0-  77     		MOVAR		INTE
+                                    0-0078      		
+       23 0004                      0-  79     		ENI							;; Enable Goble Interrupt
+                                    0-0080      		
+       24 1A88                      0-  81     		BSR		PCON, LVDEN_B	;; Enable LVD Function
+                                    0-0082      
+                 25                 0-  83      Main_Start:
+       25 0002                      0-  84     		CLRWDT
+       26 2848                      0-  85     		LCALL		F_KeyDetect
+       27 2830                      0-  86     		LCALL		F_KeyProcess
+                                    0-0087      
+       28 001F                      0-  88     		IOSTR		PCON1
+       29 00A8                      0-  89     		MOVAR		R_Temp
+       2A 0B28                      0-  90     		BTRSS		R_Temp, LVDOUT_B
+       2B 322E                      0-  91     		GOTO		Main_Start100
+       2C 1886                      0-  92     		BSR		PB, PB1_B			;; VDD > LVD
+       2D 3225                      0-  93     		GOTO		Main_Start
+                 2E                 0-  94      	Main_Start100:
+       2E 1C86                      0-  95     		BCR		PB, PB1_B			;; VDD < LVD
+       2F 3225                      0-  96     		GOTO		Main_Start
+                                    0-0097      
+                                    0-0098      
+                                    0-0099      
+                 30                 0- 100      F_KeyProcess:
+       30 0922                      0- 101     		BTRSS		R_Flag, f_key
+       31 0010                      0- 102     		RET
+                                    0-0103      		
+       32 1D22                      0- 104     		BCR		R_Flag, f_key
+       33 313A                      0- 105     		CALL		F_Get_LVD
+       34 00A7                      0- 106     		MOVAR		R_LVD_Temp
+       35 001F                      0- 107     		IOSTR		PCON1
+       36 22E3                      0- 108     		ANDIA		11100011B
+       37 1127                      0- 109     		IORAR		R_LVD_Temp, A
+       38 000F                      0- 110     		IOST		PCON1
+       39 0010                      0- 111     		RET
+                                    0-0112      	
+                 3A                 0- 113      F_Get_LVD:
+       3A 0125                      0- 114     		MOVR		R_KeyData, A
+       3B 00A7                      0- 115     		MOVAR		R_LVD_Temp
+       3C 13A7                      0- 116     		RRR		R_LVD_Temp, R
+       3D 2107                      0- 117     		MOVIA		0x07
+       3E 1027                      0- 118     		ANDAR		R_LVD_Temp, A
+       3F 0382                      0- 119     		ADDAR		PCL, R
+       40 2000                      0- 120     		RETIA		00000000b			;; 2.0V
+       41 2004                      0- 121     		RETIA		00000100b			;; 2.2V
+       42 2008                      0- 122     		RETIA		00001000b			;; 2.4V
+       43 200C                      0- 123     		RETIA		00001100b			;; 2.7V
+       44 2010                      0- 124     		RETIA		00010000b			;; 3.0V
+       45 2014                      0- 125     		RETIA		00010100b			;; 3.3V
+       46 2018                      0- 126     		RETIA		00011000b			;; 3.6V
+       47 201C                      0- 127     		RETIA		00011100b			;; 4.3V	
+                                    0-0128      		
+                                    0-0129      
+                 48                 0- 130      F_KeyDetect:
+       48 0822                      0- 131     		BTRSS		R_Flag, f_1ms
+       49 0010                      0- 132     		RET
+                                    0-0133      		
+       4A 1C22                      0- 134     		BCR		R_Flag, f_1ms
+                                    0-0135      		
+       4B 1CA2                      0- 136     		BCR		R_Flag, f_Sleep
+                                    0-0137      
+       4C 210E                      0- 138     		MOVIA		0x0E
+       4D 1005                      0- 139     		ANDAR		PA, A
+       4E 00A4                      0- 140     		MOVAR		R_KeyTemp
+       4F 1225                      0- 141     		XORAR		R_KeyData, A
+       50 0903                      0- 142     		BTRSS		Status, Z_B
+       51 3258                      0- 143     		GOTO		F_KeyDetect100
+                                    0-0144      		
+       52 05A3                      0- 145     		INCR		R_KeyCount, R
+       53 213C                      0- 146     		MOVIA		60
+       54 0423                      0- 147     		SUBAR		R_Keycount, A
+       55 0803                      0- 148     		BTRSS		Status, C_B
+       56 325B                      0- 149     		GOTO		F_KeyDetect_End
+       57 1922                      0- 150     		BSR		R_Flag, f_key
+                 58                 0- 151      	F_KeyDetect100:
+       58 02A3                      0- 152     		CLRR		R_KeyCount
+       59 0124                      0- 153     		MOVR		R_KeyTemp, A
+       5A 00A5                      0- 154     		MOVAR		R_KeyData
+                 5B                 0- 155      	F_KeyDetect_End:
+       5B 0010                      0- 156     		RET
+                                    0-0157      		
+                                    0-0158      		
+                                    0-0159      		
+                                    0-0160      		
+                                    0-0161      
+                                    0-0162      ;==================================================================
+                                    0-0163      ; Project Name:	清零全部RAM
+                                    0-0164      ; Last Modify Date:2010-11-9 16:12
+                                    0-0165      ;
+                                    0-0166      ;;Clear	RAM 0x20~0x7f
+                 5C                 0- 167      F_ClearAllRAM:
+                                    0-0168      	;Bank0	
+       5C 2120                      0- 169     		MOVIA		0x20				;; 切换到 RAM Bank0
+       5D 0084                      0- 170     		MOVAR		FSR
+                 5E                 0- 171      	L_Clear_Next_Byte_Bank0:
+       5E 0280                      0- 172     		CLRR		INDF				;; 清除该地址资料
+       5F 0584                      0- 173     		INCR		FSR, R				;; 累加间接地址
+       60 0B84                      0- 174     		BTRSS		FSR, 7
+       61 325E                      0- 175     		GOTO		L_Clear_Next_Byte_Bank0		;; 否，跳跃
+                                    0-0176      		
+       62 0010                      0- 177     		RET
+                                    0-0178      
+                                    0-0179      ;====================================================================
+                                    0-0180      ; Project Name: IO 初始化
+                                    0-0181      ; Madify Data: 2014.12.11
+                                    0-0182      ;
+                 63                 0- 183      F_IOInit:
+       63 21FF                      0- 184     		MOVIA		0xff
+       64 0085                      0- 185     		MOVAR		PA				;; 初始值
+       65 0086                      0- 186     		MOVAR		PB
+                                    0-0187      		
+       66 21FF                      0- 188     		MOVIA		0xff
+       67 0005                      0- 189     		IOST		PA
+       68 2100                      0- 190     		MOVIA		0x00
+       69 0006                      0- 191     		IOST		PB				;; 设定为IO状态	0=Output,  1=Input
+                                    0-0192      		
+       6A 2100                      0- 193     		MOVIA		0x00
+       6B 0009                      0- 194     		IOST		APHCON				;; Set PA have Pull-hi
+                                    0-0195      		
+       6C 2188                      0- 196     		MOVIA		0x88				;; 设定为 WDT(B7)=1:EN/0:DIS, PB0(B6)=1:INT/0:GPIO, LVR(B3)=1:EN/0:DIS
+       6D 0088                      0- 197     		MOVAR		PCON
+                                    0-0198      		
+       6E 2108                      0- 199     		MOVIA		0x08
+       6F 0089                      0- 200     		MOVAR		BWUCON				;; 设定 PB3 Wackup 
+                                    0-0201      		
+                                    0-0202      
+                                    0-0203      ;====================================================================
+                                    0-0204      ; Project Name: Time0 初始化
+                                    0-0205      ; Madify Data: 2014.12.11
+                 70                 0- 206      F_Timer0Set:
+       70 21FE                      0- 207     		MOVIA		0xFE
+       71 210F                      0- 208     		MOVIA		INTF				;; Clr Timer0 Flag
+       72 2100                      0- 209     		MOVIA		0x00
+       73 0003                      0- 210     		T0MD	
+       74 2100                      0- 211     		MOVIA		0x00
+       75 0081                      0- 212     		MOVAR		TMR0
+                                    0-0213      
+       76 0010                      0- 214     		RET
+                                    0-0215      
+                                    0-0216      		end
+
+ATWASM 2.13 [Build 180301.00]  File=C:\Users\USER\Documents\ATW\ATW南翔科技专案资料\九齐相关资料\Demo Code\AT8B62D\LVD Demo Code\LVD Demo Code\LVD Demo Code.asm Date=2018/3/24 11:10:19
+
+SYMBOL TABLE            TYPE     VALUE
+
+__8B062D                Constant 00000001
+__PROCESSOR__           Constant 00008012
+A                       Variable 00000000
+ABPLCON                 Constant 0000000B
+AD0_B                   Variable 00000000
+AD1_B                   Variable 00000001
+AD2_B                   Variable 00000002
+AD3_B                   Variable 00000003
+ADCK0_B                 Variable 00000004
+ADCK1_B                 Variable 00000005
+ADCR                    Constant 00000014
+ADCR0_B                 Variable 00000000
+ADCR1_B                 Variable 00000001
+ADD                     Constant 00000012
+ADEN_B                  Variable 00000007
+ADIE_B                  Variable 00000006
+ADIF_B                  Variable 00000007
+ADMD                    Constant 00000010
+ADR                     Constant 00000011
+ADVREFH                 Constant 00000013
+ANAEN                   Constant 0000001A
+APHCON                  Constant 00000009
+AWUCON                  Constant 00000015
+BK0_B                   Variable 00000006
+BK1_B                   Variable 00000007
+BOBCON                  Constant 0000000C
+BPHCON                  Constant 0000000C
+BWUCON                  Constant 00000009
+BZ1CR                   Constant 00000005
+BZ1EN_B                 Variable 00000007
+BZ1FSEL0_B              Variable 00000000
+BZ1FSEL1_B              Variable 00000001
+BZ1FSEL2_B              Variable 00000002
+BZ1FSEL3_B              Variable 00000003
+BZ2CR                   Constant 0000000E
+BZ2EN_B                 Variable 00000007
+BZ2FSEL0_B              Variable 00000000
+BZ2FSEL1_B              Variable 00000001
+BZ2FSEL2_B              Variable 00000002
+BZ2FSEL3_B              Variable 00000003
+BZ3CR                   Constant 00000015
+BZ3EN_B                 Variable 00000007
+BZ3FSEL0_B              Variable 00000000
+BZ3FSEL1_B              Variable 00000001
+BZ3FSEL2_B              Variable 00000002
+BZ3FSEL3_B              Variable 00000003
+C_B                     Variable 00000000
+CHS0_B                  Variable 00000000
+CHS1_B                  Variable 00000001
+CHS2_B                  Variable 00000002
+CHS3_B                  Variable 00000003
+CMPCR                   Constant 0000000E
+CMPEN_B                 Variable 00000007
+CMPIE_B                 Variable 00000004
+CMPIF_B                 Variable 00000005
+CMPOE_B                 Variable 00000006
+CMPOUT_B                Variable 00000007
+DC_B                    Variable 00000001
+EIS0_B                  Variable 00000004
+EIS1_B                  Variable 00000005
+EOC_B                   Variable 00000005
+EVHENB_B                Variable 00000007
+F                       Variable 00000001
+F_1MS                   Variable 00000000
+F_CLEARALLRAM           Label    0000005C
+F_GET_LVD               Label    0000003A
+F_IOINIT                Label    00000063
+F_KEY                   Variable 00000002
+F_KEYDETECT             Label    00000048
+F_KEYDETECT_END         Label    0000005B
+F_KEYDETECT100          Label    00000058
+F_KEYPROCESS            Label    00000030
+F_SLEEP                 Variable 00000001
+F_TIMER0SET             Label    00000070
+FSR                     Constant 00000004
+GCHS_B                  Variable 00000004
+GIE_B                   Variable 00000007
+INDF                    Constant 00000000
+INT0G0_B                Variable 00000000
+INT0G1_B                Variable 00000001
+INT0IE_B                Variable 00000002
+INT0IF_B                Variable 00000002
+INT1G0_B                Variable 00000002
+INT1G1_B                Variable 00000003
+INT1IE_B                Variable 00000007
+INT2IF_B                Variable 00000007
+INTE                    Constant 0000000E
+INTE2                   Constant 0000001F
+INTEDG                  Constant 00000018
+INTF                    Constant 0000000F
+IOSTA                   Constant 00000005
+IOSTB                   Constant 00000006
+IRCR                    Constant 00000006
+IRCSEL_B                Variable 00000002
+IREN_B                  Variable 00000000
+IRF57K_B                Variable 00000001
+IROSC358M_B             Variable 00000007
+ISR_END                 Label    00000019
+ISR_PROG                Label    00000008
+ISR_PROG100             Label    0000000C
+ISR_PROGRAM900          Label    00000013
+L_CLEAR_NEXT_BYTE_BANK0 Label    0000005E
+LCKTM0_B                Variable 00000007
+LVDEN_B                 Variable 00000005
+LVDOUT_B                Variable 00000006
+LVDS0_B                 Variable 00000002
+LVDS1_B                 Variable 00000003
+LVDS2_B                 Variable 00000004
+LVDTIE_B                Variable 00000004
+LVDTIF_B                Variable 00000004
+LVREN_B                 Variable 00000003
+MAIN_PROG               Label    0000001D
+MAIN_START              Label    00000025
+MAIN_START100           Label    0000002E
+OPMD0_B                 Variable 00000002
+OPMD1_B                 Variable 00000003
+OSCCR                   Constant 0000000F
+PA                      Constant 00000005
+PA0_B                   Variable 00000000
+PA1_B                   Variable 00000001
+PA2_B                   Variable 00000002
+PA3_B                   Variable 00000003
+PA4_B                   Variable 00000004
+PA5_B                   Variable 00000005
+PA6_B                   Variable 00000006
+PA7_B                   Variable 00000007
+PABIE_B                 Variable 00000001
+PABIF_B                 Variable 00000001
+PACON                   Constant 00000016
+PACON0_B                Variable 00000000
+PACON1_B                Variable 00000001
+PACON2_B                Variable 00000002
+PACON3_B                Variable 00000003
+PACON4_B                Variable 00000004
+PB                      Constant 00000006
+PB0_B                   Variable 00000000
+PB1_B                   Variable 00000001
+PB2_B                   Variable 00000002
+PB3_B                   Variable 00000003
+PB4_B                   Variable 00000004
+PB5_B                   Variable 00000005
+PB6_B                   Variable 00000006
+PB7_B                   Variable 00000007
+PBCON0_B                Variable 00000005
+PBCON1_B                Variable 00000006
+PBCON2_B                Variable 00000007
+PBCON4_B                Variable 00000006
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+PCON                    Constant 00000008
+PCON1                   Constant 0000000F
+PD_B                    Variable 00000003
+PHPA5_B                 Variable 00000004
+PS0CV                   Constant 0000000A
+PS0SEL0_B               Variable 00000000
+PS0SEL1_B               Variable 00000001
+PS0SEL2_B               Variable 00000002
+PS0WDT_B                Variable 00000003
+PS1CV                   Constant 00000004
+PS1EN_B                 Variable 00000003
+PS1SEL0_B               Variable 00000000
+PS1SEL1_B               Variable 00000001
+PS1SEL2_B               Variable 00000002
+PS2CV                   Constant 0000000D
+PS2EN_B                 Variable 00000003
+PS2SEL0_B               Variable 00000000
+PS2SEL1_B               Variable 00000001
+PS2SEL2_B               Variable 00000002
+PS3CV                   Constant 00000014
+PS3EN_B                 Variable 00000003
+PS3SEL0_B               Variable 00000000
+PS3SEL1_B               Variable 00000001
+PS3SEL2_B               Variable 00000002
+PSEL0_B                 Variable 00000000
+PSEL1_B                 Variable 00000001
+PSEL2_B                 Variable 00000002
+PSEL3_B                 Variable 00000003
+PWM1DUTY                Constant 00000003
+PWM1DUTY8_B             Variable 00000000
+PWM1DUTY9_B             Variable 00000001
+PWM1OAL_B               Variable 00000006
+PWM1OEN_B               Variable 00000007
+PWM2DUTY                Constant 0000000C
+PWM2DUTY8_B             Variable 00000002
+PWM2DUTY9_B             Variable 00000003
+PWM2OAL_B               Variable 00000006
+PWM2OEN_B               Variable 00000007
+PWM3D8_B                Variable 00000000
+PWM3D9_B                Variable 00000001
+PWM3DUTY                Constant 00000013
+PWM3OAL_B               Variable 00000006
+PWM3OEN_B               Variable 00000007
+R                       Variable 00000001
+R_ACC_BUF               Constant 00000020
+R_FLAG                  Constant 00000022
+R_KEYCOUNT              Constant 00000023
+R_KEYDATA               Constant 00000025
+R_KEYOLDDATA            Constant 00000026
+R_KEYTEMP               Constant 00000024
+R_LVD_TEMP              Constant 00000027
+R_STATUS_BUF            Constant 00000021
+R_TEMP                  Constant 00000028
+RESET                   Label    00000000
+RFC                     Constant 0000001B
+RFCEN_B                 Variable 00000007
+SELHSC_B                Variable 00000000
+SHCK0_B                 Variable 00000002
+SHCK1_B                 Variable 00000003
+START_B                 Variable 00000006
+STATUS                  Constant 00000003
+STPHOSC_B               Variable 00000001
+T0CE_B                  Variable 00000004
+T0CS_B                  Variable 00000005
+T0EN_B                  Variable 00000000
+T0IE_B                  Variable 00000000
+T0IF_B                  Variable 00000000
+T1CE_B                  Variable 00000004
+T1CR1                   Constant 00000001
+T1CR2                   Constant 00000002
+T1CS_B                  Variable 00000005
+T1EN_B                  Variable 00000000
+T1IE_B                  Variable 00000003
+T1IF_B                  Variable 00000003
+T1OS_B                  Variable 00000002
+T1RL_B                  Variable 00000001
+T2CE_B                  Variable 00000004
+T2CR1                   Constant 0000000A
+T2CR2                   Constant 0000000B
+T2CS_B                  Variable 00000005
+T2EN_B                  Variable 00000000
+T2IE_B                  Variable 00000005
+T2IF_B                  Variable 00000005
+T2OS_B                  Variable 00000002
+T2RL_B                  Variable 00000001
+T3CE_B                  Variable 00000004
+T3CR1                   Constant 00000011
+T3CR2                   Constant 00000012
+T3CS_B                  Variable 00000005
+T3EN_B                  Variable 00000000
+T3IE_B                  Variable 00000000
+T3IF_B                  Variable 00000004
+T3OS_B                  Variable 00000002
+T3RL_B                  Variable 00000001
+TBHD                    Constant 00000008
+TBHP                    Constant 00000007
+TM3RH                   Constant 0000001C
+TMR0                    Constant 00000001
+TMR1                    Constant 00000000
+TMR18_B                 Variable 00000004
+TMR19_B                 Variable 00000005
+TMR2                    Constant 00000009
+TMR28_B                 Variable 00000006
+TMR29_B                 Variable 00000007
+TMR3                    Constant 00000010
+TMR38_B                 Variable 00000004
+TMR39_B                 Variable 00000005
+TMRH                    Constant 00000019
+TO_B                    Variable 00000004
+VHS0_B                  Variable 00000000
+VHS1_B                  Variable 00000001
+W                       Variable 00000000
+WDTEN_B                 Variable 00000007
+WDTIE_B                 Variable 00000006
+WDTIF_B                 Variable 00000006
+WUPA0_B                 Variable 00000000
+WUPA1_B                 Variable 00000001
+WUPA2_B                 Variable 00000002
+WUPA3_B                 Variable 00000003
+WUPA4_B                 Variable 00000004
+WUPA5_B                 Variable 00000005
+WUPA6_B                 Variable 00000006
+WUPA7_B                 Variable 00000007
+XSPD_STP_B              Variable 00000006
+Z_B                     Variable 00000002
+
+
+SOURCE FILE TABLE
+000 C:\Users\USER\Documents\ATW\ATW南翔科技专案资料\九齐相关资料\Demo Code\AT8B62D\LVD Demo Code\LVD Demo Code\LVD Demo Code.asm
+001 C:\Users\USER\Documents\ATW\ATW南翔科技专案资料\九齐相关资料\Demo Code\AT8B62D\LVD Demo Code\LVD Demo Code\AT8B62D.H
+
+PROCESSOR    = AT8B62D (8 bits) 
+PROGRAM ROM  = 0x00000000 - 0x000007FF
+DATA ROM     = 0x00000000 - 0x000007FF
+SRAM / SFR   = 0x00000000 - 0x00000000

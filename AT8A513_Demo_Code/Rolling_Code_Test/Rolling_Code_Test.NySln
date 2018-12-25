@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "Rolling Code Test", "Rolling Code Test\Rolling Code Test.naprj", "{7B856AFD-4AAB-4E4C-859E-977DF5D13BF9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7B856AFD-4AAB-4E4C-859E-977DF5D13BF9}.Debug|Any.Build.0 = Debug|Any
+		{7B856AFD-4AAB-4E4C-859E-977DF5D13BF9}.Debug|Any.ActiveCfg = Debug|Any
+		{7B856AFD-4AAB-4E4C-859E-977DF5D13BF9}.Release|Any.Build.0 = Release|Any
+		{7B856AFD-4AAB-4E4C-859E-977DF5D13BF9}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

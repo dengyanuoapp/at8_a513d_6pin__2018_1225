@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 3.00.0.1006
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "RFC Demo Code", "RFC Demo Code.naprj", "{4B8BA05A-AFB9-4D82-A46A-0FC7EB26F62B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4B8BA05A-AFB9-4D82-A46A-0FC7EB26F62B}.Debug|Any.Build.0 = Debug|AsmNy8
+		{4B8BA05A-AFB9-4D82-A46A-0FC7EB26F62B}.Debug|Any.ActiveCfg = Debug|AsmNy8
+		{4B8BA05A-AFB9-4D82-A46A-0FC7EB26F62B}.Release|Any.Build.0 = Release|AsmNy8
+		{4B8BA05A-AFB9-4D82-A46A-0FC7EB26F62B}.Release|Any.ActiveCfg = Release|AsmNy8
+	EndGlobalSection
+EndGlobal

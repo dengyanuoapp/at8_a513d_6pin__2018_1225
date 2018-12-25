@@ -1,0 +1,19 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "H_L IRC Change Test", "H_L IRC Change Test.naprj", "0F1B8851-0DFB-4761-81F5-8029C5D95848"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		0F1B8851-0DFB-4761-81F5-8029C5D95848.Debug|AsmNy8.Build.0 = Debug|AsmNy8
+		0F1B8851-0DFB-4761-81F5-8029C5D95848.Debug|AsmNy8.ActiveCfg = Debug|AsmNy8
+		0F1B8851-0DFB-4761-81F5-8029C5D95848.Release|AsmNy8.Build.0 = Release|AsmNy8
+		0F1B8851-0DFB-4761-81F5-8029C5D95848.Release|AsmNy8.ActiveCfg = Release|AsmNy8
+	EndGlobalSection
+EndGlobal

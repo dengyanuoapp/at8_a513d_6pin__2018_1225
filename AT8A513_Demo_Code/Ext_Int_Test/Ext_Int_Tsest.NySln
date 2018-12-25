@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "Ext-Int Tsest", "Ext-Int Tsest\Ext-Int Tsest.naprj", "{B9E77E73-CEE6-4F91-9D29-1EF72218130A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B9E77E73-CEE6-4F91-9D29-1EF72218130A}.Debug|Any.Build.0 = Debug|Any
+		{B9E77E73-CEE6-4F91-9D29-1EF72218130A}.Debug|Any.ActiveCfg = Debug|Any
+		{B9E77E73-CEE6-4F91-9D29-1EF72218130A}.Release|Any.Build.0 = Release|Any
+		{B9E77E73-CEE6-4F91-9D29-1EF72218130A}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

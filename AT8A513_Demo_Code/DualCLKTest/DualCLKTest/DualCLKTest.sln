@@ -1,0 +1,19 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "DualCLKTest", "DualCLKTest.naprj", "{18FF1DAC-7639-4BBD-9863-DD44FB860DD6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{18FF1DAC-7639-4BBD-9863-DD44FB860DD6}.Debug|AsmNy8.Build.0 = Debug|AsmNy8
+		{18FF1DAC-7639-4BBD-9863-DD44FB860DD6}.Debug|AsmNy8.ActiveCfg = Debug|AsmNy8
+		{18FF1DAC-7639-4BBD-9863-DD44FB860DD6}.Release|AsmNy8.Build.0 = Release|AsmNy8
+		{18FF1DAC-7639-4BBD-9863-DD44FB860DD6}.Release|AsmNy8.ActiveCfg = Release|AsmNy8
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Condition="">
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>WDT Int Test</AssemblyName>
+    <ChipId>NY8A051A</ChipId>
+    <ClientName>ATW</ClientName>
+    <Configuration>Debug</Configuration>
+    <OutputType>bin</OutputType>
+    <Platform>AsmNy8</Platform>
+    <ProjectGuid>{1E5BF7AF-50BF-48B0-83EE-214A5B535DCC}</ProjectGuid>
+    <RootNamespace>WDT_Int_Test</RootNamespace>
+    <TrimSetting>+ 0%</TrimSetting>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="WDT Int Test.asm" EntryPoint="true" />
+    <None Include="WDT Int Test.cb" EntryPoint="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Client: ATW" EntryPoint="false" />
+    <Reference Include="Config Block: WDT Int Test.cb" EntryPoint="false" />
+    <Reference Include="IC Body: AT8A513" EntryPoint="false" />
+  </ItemGroup>
+</Project>

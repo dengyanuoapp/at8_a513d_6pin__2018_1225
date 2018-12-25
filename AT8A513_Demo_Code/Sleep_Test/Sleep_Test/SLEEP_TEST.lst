@@ -1,0 +1,437 @@
+
+                    AT Win Technology Co., Ltd.
+
+ATASM 1.92 [Build 051515.00]  File=C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATWƒœœËø∆ºº◊®∞∏◊ ¡œ\æ≈∆Îœ‡πÿ◊ ¡œ\DEMO CODE\AT8A513\SLEEP TEST\SLEEP TEST\SLEEP TEST.ASM Date=2015/6/29 15:06:50
+
+    ADDR  OPCODE/VALUE              LINE   TAG  SOURCE                   STATEMENT    
+
+                                    0-0001      ; =========================================================================
+                                    0-0002      ; Created by ATW.
+                                    0-0003      ; User: VincentLin
+                                    0-0004      ; Date: 2014/12/15
+                                    0-0005      ; Time: 13:44
+                                    0-0006      ; ËØ¥ÊòéÔºöPB3‰∏∫ÊåâÈîÆËæìÂÖ•„ÄÇÂºÄÊú∫Êó∂‰∏∫Normal ModeÔºåÊåâ‰∏ãÊåâÈîÆÂêéÔºåËøõÂÖ•Sleep Mode„ÄÇÂú®Áî±Êåâ‰∏ãÊåâÈîÆÂî§ÈÜíËøõÂÖ•Normal Mode„ÄÇ
+                                    0-0007      ; =========================================================================
+                                    0-0008      ; Chip Register Define
+                                    0-0009      ;; Register R
+                  0                 0-  10      		INDF		EQU		0x00
+                  1                 0-  11      		TMR0		EQU		0x01
+                  2                 0-  12      		PCL			EQU		0x02
+                                    0-0013      		
+                  3                 0-  14      		STATUS		EQU		0x03
+                  0                 0-  15      			C		EQU		0
+                  1                 0-  16      			DC		EQU		1
+                  2                 0-  17      			Z		EQU		2
+                                    0-0018      ;			PD		EQU		3
+                                    0-0019      ;			TO		EQU		4
+                                    0-0020      			
+                  4                 0-  21      		FSR			EQU		0x04
+                                    0-0022      		
+                  5                 0-  23      		PA			EQU		0x05
+                                    0-0024      		
+                  6                 0-  25      		PB			EQU		0x06
+                  0                 0-  26      			PB0		EQU		0
+                  1                 0-  27      			PB1		EQU		1
+                  2                 0-  28      			PB2		EQU		2
+                  3                 0-  29      			PB3		EQU		3
+                  4                 0-  30      			PB4		EQU		4
+                  5                 0-  31      			PB5		EQU		5
+                                    0-0032      			
+                  8                 0-  33      		PCON		EQU		0x08
+                  9                 0-  34      		BWUCON		EQU		0x09
+                  A                 0-  35      		PCHBUF		EQU		0x0A
+                  B                 0-  36      		ABPLCON		EQU		0x0B
+                  C                 0-  37      		BPHCON		EQU		0x0C
+                                    0-0038      		
+                  E                 0-  39      		INTE		EQU		0x0E
+                  0                 0-  40      			T0IE	EQU		0
+                  1                 0-  41      			PBIE	EQU		1
+                  2                 0-  42      			INTIE	EQU		2
+                  3                 0-  43      			T1IE	EQU		3
+                  6                 0-  44      			WDTIE	EQU		6
+                                    0-0045      			
+                  F                 0-  46      		INTF		EQU		0x0f
+                  0                 0-  47      			T0IF	EQU		0
+                  1                 0-  48      			PBIF	EQU		1
+                  2                 0-  49      			INTIF	EQU		2
+                  3                 0-  50      			T1IF	EQU		3
+                  6                 0-  51      			WDTIF	EQU		6
+                                    0-0052      
+                                    0-0053      ;; Register F
+                  A                 0-  54      		PS0CV		EQU		0x0a
+                  C                 0-  55      		BOBCON		EQU		0x0c
+                                    0-0056      		
+                  F                 0-  57      		PCON1		EQU		0x0f
+                  0                 0-  58      			T0EN	EQU		0
+                  7                 0-  59      			GIE	EQU		7
+                                    0-0060      		
+                                    0-0061      ;; Register S
+                  0                 0-  62      		TMR1		EQU		0x00
+                                    0-0063      		
+                  1                 0-  64      		T1CR1		EQU		0x01
+                  0                 0-  65      			T1EN	EQU		0
+                  1                 0-  66      			T1RL	EQU		1
+                  2                 0-  67      			T1OS	EQU		2
+                                    0-0068      			
+                  6                 0-  69      			PWM1OAL	EQU		6
+                  7                 0-  70      			PWM1OEN	EQU		7
+                                    0-0071      			
+                  2                 0-  72      		T1CR2		EQU		0x02
+                  3                 0-  73      			PS1EN	EQU		3
+                  4                 0-  74      			T1CE	EQU		4
+                  5                 0-  75      			T1CS	EQU		5
+                                    0-0076      			
+                  3                 0-  77      		PWM1DUTY	EQU		0x03
+                  4                 0-  78      		PS1CV		EQU		0x04
+                  5                 0-  79      		BZ1CR		EQU		0x05
+                                    0-0080      		
+                  6                 0-  81      		IRCR		EQU		0x06
+                  0                 0-  82      			IREN		EQU	0
+                  1                 0-  83      			IRF57K		EQU	1
+                  2                 0-  84      			IRCSEL		EQU	2
+                  7                 0-  85      			IROSC358M	EQU	7
+                                    0-0086      			
+                  7                 0-  87      		TBHP		EQU		0x07
+                  8                 0-  88      		TBHD		EQU		0x08
+                                    0-0089      		
+                  F                 0-  90      		OSCCR		EQU		0x0f
+                  0                 0-  91      			SELHSC	EQU		0
+                  1                 0-  92      			STPHOSC	EQU		1
+                  2                 0-  93      			OPMD0	EQU		2
+                  3                 0-  94      			OPMD1	EQU		3
+                                    0-0095      
+                  1                 0-  96      		f			EQU		1
+                  1                 0-  97      		R			EQU		1
+                  0                 0-  98      		W			EQU		0
+                  0                 0-  99      		A			EQU		0
+                                    0-0100      		
+                                    0-0101      ;; User Register Define (0x10~0x3F)
+                 10                 0- 102      	R_ACC_Buf	EQU		0x10
+                 11                 0- 103      	R_Status_Buf	EQU		0x11
+                 12                 0- 104      	R_flag			EQU		0x12
+                  0                 0- 105      		f_1ms			EQU		0
+                  1                 0- 106      		f_Sleep			EQU		1
+                  2                 0- 107      		f_Key			EQU		2
+                 13                 0- 108      	R_KeyCount		EQU		0x13
+                 14                 0- 109      	R_KeyTemp		EQU		0x14
+                 15                 0- 110      	R_KeyData		EQU		0x15
+                 16                 0- 111      	R_KeyOldData	EQU		0x16
+                 17                 0- 112      	R_Mode			EQU		0x17
+                                    0-0113      		
+                                    0-0114      		
+                                    0-0115      
+                                    0-0116      ;; Chip Reset Vector
+                                    0-0117      ; ===============================================================
+                  0                 0- 118      		ORG	0x00
+                  0                 0- 119      Reset:
+        0 3217                      0- 120     		GOTO	Main_Prog
+                                    0-0121      
+                                    0-0122      ;; ISR Vector
+                  8                 0- 123      		ORG	0x08
+                  8                 0- 124      ISR_Prog:
+        8 0090                      0- 125     		MOVAR		R_ACC_Buf			;; ‰øùÁïô ACC Âèä Status ÁöÑÁä∂ÊÄÅÂÄº
+        9 1590                      0- 126     		SWAPR		R_ACC_Buf, R
+        A 1503                      0- 127     		SWAPR		STATUS, A
+        B 0091                      0- 128     		MOVAR		R_Status_Buf
+                                    0-0129      	
+                  C                 0- 130      	ISR_Prog100:
+        C 080F                      0- 131     		BTRSS		INTF, T0IF
+        D 3213                      0- 132     		GOTO		ISR_End
+                                    0-0133      ;		BCR			INTF, T0IF		;; ‰∏çÂª∫ËÆÆ‰ΩøÁî®ÊñπÂºèÊ∏ÖÈô§
+        E 21FE                      0- 134     		MOVIA		0xFE
+        F 008F                      0- 135     		MOVAR		INTF			;; CLR TIMER0 FLAG
+       10 2101                      0- 136     		MOVIA		0x01
+       11 1286                      0- 137     		XORAR		PB, R
+       12 1812                      0- 138     		BSR			R_Flag, f_1ms
+                                    0-0139      
+                 13                 0- 140      	ISR_End:
+       13 1511                      0- 141     		SWAPR		R_Status_Buf, A		;; ÂèñÂõû ACC	Âèä Status ÁöÑÁä∂ÊÄÅÂÄº
+       14 0083                      0- 142     		MOVAR		STATUS
+       15 1510                      0- 143     		SWAPR		R_ACC_Buf, A
+       16 0011                      0- 144     		RETIE
+                                    0-0145      		
+                                    0-0146      		
+                                    0-0147      
+                                    0-0148      ;; Main Program
+                                    0-0149      ;		ORG	0x10
+                 17                 0- 150      Main_Prog:
+       17 2866                      0- 151     		LCALL		F_ClearAllRAM
+       18 2870                      0- 152     		LCALL		F_IOInit
+                                    0-0153      		
+       19 2101                      0- 154     		MOVIA		0x01			;; ENABLE T0 Interrupt
+       1A 008E                      0- 155     		MOVAR		INTE
+                                    0-0156      		
+       1B 0004                      0- 157     		ENI							;; Enable Goble Interrupt
+                                    0-0158      
+                 1C                 0- 159      Main_Start:
+       1C 0002                      0- 160     		CLRWDT
+       1D 2852                      0- 161     		LCALL		F_KeyDetect
+       1E 2821                      0- 162     		LCALL		F_KeyProcess
+       1F 2832                      0- 163     		LCALL		F_SleepMode
+       20 321C                      0- 164     		GOTO		Main_Start
+                                    0-0165      
+                                    0-0166      
+                                    0-0167      
+                 21                 0- 168      F_KeyProcess:
+       21 0912                      0- 169     		BTRSS		R_Flag, f_key
+       22 0010                      0- 170     		RET
+                                    0-0171      		
+       23 1D12                      0- 172     		BCR			R_Flag, f_key
+                                    0-0173      		
+       24 0116                      0- 174     		MOVR		R_KeyOldData, A
+       25 1215                      0- 175     		XORAR		R_KeyData, A
+       26 0D03                      0- 176     		BTRSC		Status, Z
+       27 3231                      0- 177     		GOTO		F_KeyProcess_End
+       28 0115                      0- 178     		MOVR		R_KeyData,A
+       29 0096                      0- 179     		MOVAR		R_KeyOldData
+       2A 0D95                      0- 180     		BTRSC		R_KeyData, PB3
+       2B 3231                      0- 181     		GOTO		F_KeyProcess_End
+       2C 0597                      0- 182     		INCR		R_Mode, R
+       2D 2102                      0- 183     		MOVIA		0x02
+       2E 0417                      0- 184     		SUBAR		R_Mode, A
+       2F 0C03                      0- 185     		BTRSC		Status, C
+       30 0297                      0- 186     		CLRR		R_Mode
+                 31                 0- 187      	F_KeyProcess_End:
+       31 0010                      0- 188     		RET
+                                    0-0189      
+                                    0-0190      
+                 32                 0- 191      F_SleepMode:
+       32 0117                      0- 192     		MOVR		R_Mode, A
+       33 0903                      0- 193     		BTRSS		Status, Z
+       34 0010                      0- 194     		RET
+                                    0-0195      		
+                 35                 0- 196      	F_SleepMode100:	
+       35 0002                      0- 197     		CLRWDT
+       36 0995                      0- 198     		BTRSS		R_KeyData, PB3
+       37 0010                      0- 199     		RET
+                                    0-0200      
+       38 1C06                      0- 201     		BCR			PB, PB0		;; ËÆæÂÆöPB0=Low
+       39 0013                      0- 202     		DISI					;; Disable Goble Interrupt
+                                    0-0203      		
+       3A 0002                      0- 204     		CLRWDT
+       3B 2100                      0- 205     		MOVIA		0x00
+       3C 0088                      0- 206     		MOVAR		PCON
+       3D 2102                      0- 207     		MOVIA		0x02
+       3E 008E                      0- 208     		MOVAR		INTE
+       3F 2100                      0- 209     	 	MOVIA		0x00
+       40 008F                      0- 210     	 	MOVAR		INTF
+                                    0-0211      	;;	CLRR		INTIF
+       41 0186                      0- 212     		MOVR		PB, R
+                                    0-0213      	;; into Sleep Status
+       42 0000                      0- 214     		NOP
+       43 0000                      0- 215     		NOP
+       44 0001                      0- 216     		SLEEP
+       45 0000                      0- 217     		NOP
+       46 0000                      0- 218     		NOP
+       47 2100                      0- 219     		MOVIA		0x00
+       48 008F                      0- 220     		MOVAR		INTF
+       49 2101                      0- 221     		MOVIA		0x01
+       4A 008E                      0- 222     		MOVAR		INTE
+       4B 0002                      0- 223     		CLRWDT
+       4C 2188                      0- 224     		MOVIA		0x88
+       4D 0088                      0- 225     		MOVAR		PCON
+       4E 0004                      0- 226     		ENI						;; Enable Goble Interrupt
+       4F 2101                      0- 227     		MOVIA		0x01
+       50 0097                      0- 228     		MOVAR		R_Mode
+                 51                 0- 229      	F_SleepMode900:
+       51 0010                      0- 230     		RET
+                                    0-0231      		
+                                    0-0232      
+                                    0-0233      		
+                                    0-0234      		
+                                    0-0235      		
+                                    0-0236      
+                 52                 0- 237      F_KeyDetect:
+       52 0812                      0- 238     		BTRSS		R_Flag, f_1ms
+       53 0010                      0- 239     		RET
+                                    0-0240      		
+       54 1C12                      0- 241     		BCR			R_Flag, f_1ms
+                                    0-0242      		
+       55 1C92                      0- 243     		BCR			R_Flag, f_Sleep
+                                    0-0244      
+       56 2108                      0- 245     		MOVIA		0x08
+       57 1006                      0- 246     		ANDAR		PB, A
+       58 0094                      0- 247     		MOVAR		R_KeyTemp
+       59 1215                      0- 248     		XORAR		R_KeyData, A
+       5A 0903                      0- 249     		BTRSS		Status, Z
+       5B 3262                      0- 250     		GOTO		F_KeyDetect100
+                                    0-0251      		
+       5C 0593                      0- 252     		INCR		R_KeyCount, R
+       5D 213C                      0- 253     		MOVIA		60
+       5E 0413                      0- 254     		SUBAR		R_Keycount, A
+       5F 0803                      0- 255     		BTRSS		Status, C
+       60 3265                      0- 256     		GOTO		F_KeyDetect_End
+       61 1912                      0- 257     		BSR			R_Flag, f_key
+                 62                 0- 258      	F_KeyDetect100:
+       62 0293                      0- 259     		CLRR		R_KeyCount
+       63 0114                      0- 260     		MOVR		R_KeyTemp, A
+       64 0095                      0- 261     		MOVAR		R_KeyData
+                 65                 0- 262      	F_KeyDetect_End:
+       65 0010                      0- 263     		RET
+                                    0-0264      		
+                                    0-0265      		
+                                    0-0266      		
+                                    0-0267      		
+                                    0-0268      
+                                    0-0269      ;==================================================================
+                                    0-0270      ; Project Name:	Ê∏ÖÈõ∂ÂÖ®ÈÉ®RAM
+                                    0-0271      ; Last Modify Date:2010-11-9 16:12
+                                    0-0272      ;
+                                    0-0273      ;;Clear	RAM 0x10~0x3f
+                 66                 0- 274      F_ClearAllRAM:
+       66 212F                      0- 275     		MOVIA		0x2f
+       67 0090                      0- 276     		MOVAR		0x10
+       68 2111                      0- 277     		MOVIA		0X11
+       69 0084                      0- 278     		MOVAR		FSR
+                 6A                 0- 279      	L_Clear_Next_Byte:
+       6A 0280                      0- 280     		CLRR		INDF
+       6B 0584                      0- 281     		INCR		FSR, R
+       6C 1790                      0- 282     		DECRSZ		10H, R
+       6D 386A                      0- 283     		LGOTO		L_Clear_Next_Byte
+       6E 0284                      0- 284     		CLRR		FSR
+       6F 0010                      0- 285     		RET
+                                    0-0286      
+                                    0-0287      ;====================================================================
+                                    0-0288      ; Project Name: IO ÂàùÂßãÂåñ
+                                    0-0289      ; Madify Data: 2014.12.11
+                                    0-0290      ;
+                 70                 0- 291      F_IOInit:
+       70 21FF                      0- 292     		MOVIA		0xff
+       71 0086                      0- 293     		MOVAR		PB				;; ÂàùÂßãÂÄº
+       72 2108                      0- 294     		MOVIA		0x08
+       73 0006                      0- 295     		IOST		PB				;; ËÆæÂÆö‰∏∫IOÁä∂ÊÄÅ	0=Output,  1=Input
+                                    0-0296      		
+       74 2188                      0- 297     		MOVIA		0x88			;; ËÆæÂÆö‰∏∫ WDT(B7)=1:EN/0:DIS, PB0(B6)=1:INT/0:GPIO, LVR(B3)=1:EN/0:DIS
+       75 0088                      0- 298     		MOVAR		PCON
+                                    0-0299      		
+       76 2108                      0- 300     		MOVIA		0x08
+       77 0089                      0- 301     		MOVAR		BWUCON			;; ËÆæÂÆö PB3 Wackup 
+                                    0-0302      		
+                                    0-0303      
+                                    0-0304      ;====================================================================
+                                    0-0305      ; Project Name: Time0 ÂàùÂßãÂåñ
+                                    0-0306      ; Madify Data: 2014.12.11
+                 78                 0- 307      F_Timer0Set:
+       78 21FE                      0- 308     		MOVIA		0xFE
+       79 210F                      0- 309     		MOVIA		INTF			;; Clr Timer0 Flag
+       7A 2100                      0- 310     		MOVIA		0x00
+       7B 0003                      0- 311     		T0MD	
+       7C 2100                      0- 312     		MOVIA		0x00
+       7D 0081                      0- 313     		MOVAR		TMR0
+                                    0-0314      
+       7E 0010                      0- 315     		RET
+                                    0-0316      
+                                    0-0317      		end
+
+ATASM 1.92 [Build 051515.00]  File=C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATWƒœœËø∆ºº◊®∞∏◊ ¡œ\æ≈∆Îœ‡πÿ◊ ¡œ\DEMO CODE\AT8A513\SLEEP TEST\SLEEP TEST\SLEEP TEST.ASM Date=2015/6/29 15:06:50
+
+SYMBOL TABLE            TYPE     VALUE
+
+__8A051A                Constant 00000001
+__PROCESSOR__           Constant 00008000
+A                       Constant 00000000
+ABPLCON                 Constant 0000000B
+BOBCON                  Constant 0000000C
+BPHCON                  Constant 0000000C
+BWUCON                  Constant 00000009
+BZ1CR                   Constant 00000005
+C                       Constant 00000000
+DC                      Constant 00000001
+F                       Constant 00000001
+F_1MS                   Constant 00000000
+F_CLEARALLRAM           Label    00000066
+F_IOINIT                Label    00000070
+F_KEY                   Constant 00000002
+F_KEYDETECT             Label    00000052
+F_KEYDETECT_END         Label    00000065
+F_KEYDETECT100          Label    00000062
+F_KEYPROCESS            Label    00000021
+F_KEYPROCESS_END        Label    00000031
+F_SLEEP                 Constant 00000001
+F_SLEEPMODE             Label    00000032
+F_SLEEPMODE100          Label    00000035
+F_SLEEPMODE900          Label    00000051
+F_TIMER0SET             Label    00000078
+FSR                     Constant 00000004
+GIE                     Constant 00000007
+INDF                    Constant 00000000
+INTE                    Constant 0000000E
+INTF                    Constant 0000000F
+INTIE                   Constant 00000002
+INTIF                   Constant 00000002
+IRCR                    Constant 00000006
+IRCSEL                  Constant 00000002
+IREN                    Constant 00000000
+IRF57K                  Constant 00000001
+IROSC358M               Constant 00000007
+ISR_END                 Label    00000013
+ISR_PROG                Label    00000008
+ISR_PROG100             Label    0000000C
+L_CLEAR_NEXT_BYTE       Label    0000006A
+MAIN_PROG               Label    00000017
+MAIN_START              Label    0000001C
+OPMD0                   Constant 00000002
+OPMD1                   Constant 00000003
+OSCCR                   Constant 0000000F
+PA                      Constant 00000005
+PB                      Constant 00000006
+PB0                     Constant 00000000
+PB1                     Constant 00000001
+PB2                     Constant 00000002
+PB3                     Constant 00000003
+PB4                     Constant 00000004
+PB5                     Constant 00000005
+PBIE                    Constant 00000001
+PBIF                    Constant 00000001
+PCHBUF                  Constant 0000000A
+PCL                     Constant 00000002
+PCON                    Constant 00000008
+PCON1                   Constant 0000000F
+PS0CV                   Constant 0000000A
+PS1CV                   Constant 00000004
+PS1EN                   Constant 00000003
+PWM1DUTY                Constant 00000003
+PWM1OAL                 Constant 00000006
+PWM1OEN                 Constant 00000007
+R                       Constant 00000001
+R_ACC_BUF               Constant 00000010
+R_FLAG                  Constant 00000012
+R_KEYCOUNT              Constant 00000013
+R_KEYDATA               Constant 00000015
+R_KEYOLDDATA            Constant 00000016
+R_KEYTEMP               Constant 00000014
+R_MODE                  Constant 00000017
+R_STATUS_BUF            Constant 00000011
+RESET                   Label    00000000
+SELHSC                  Constant 00000000
+STATUS                  Constant 00000003
+STPHOSC                 Constant 00000001
+T0EN                    Constant 00000000
+T0IE                    Constant 00000000
+T0IF                    Constant 00000000
+T1CE                    Constant 00000004
+T1CR1                   Constant 00000001
+T1CR2                   Constant 00000002
+T1CS                    Constant 00000005
+T1EN                    Constant 00000000
+T1IE                    Constant 00000003
+T1IF                    Constant 00000003
+T1OS                    Constant 00000002
+T1RL                    Constant 00000001
+TBHD                    Constant 00000008
+TBHP                    Constant 00000007
+TMR0                    Constant 00000001
+TMR1                    Constant 00000000
+W                       Constant 00000000
+WDTIE                   Constant 00000006
+WDTIF                   Constant 00000006
+Z                       Constant 00000002
+
+
+SOURCE FILE TABLE
+000 C:\USERS\VINCENTLIN\DOCUMENTS\ATW\ATWƒœœËø∆ºº◊®∞∏◊ ¡œ\æ≈∆Îœ‡πÿ◊ ¡œ\DEMO CODE\AT8A513\SLEEP TEST\SLEEP TEST\SLEEP TEST.ASM
+
+PROCESSOR    = AT8A513 (8 bits) 
+PROGRAM ROM  = 0x00000000 - 0x000003FF
+DATA ROM     = 0x00000000 - 0x000003FF
+SRAM / SFR   = 0x00000000 - 0x00000000

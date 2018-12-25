@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <PropertyGroup Condition="">
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <AssemblyName>ADC Demo Code</AssemblyName>
+    <ChipId>NY8B062D</ChipId>
+    <ClientName>ATW</ClientName>
+    <Configuration>Debug</Configuration>
+    <LinkerScriptFile>ADC Demo Code.ld</LinkerScriptFile>
+    <OutputType>bin</OutputType>
+    <Platform>AsmNy8</Platform>
+    <ProjectGuid>{B75DEED3-7A3E-4E19-A7CC-B6A95CC5EC7F}</ProjectGuid>
+    <ProjectOptionChanged>False</ProjectOptionChanged>
+    <RootNamespace>ADC_Demo_Code</RootNamespace>
+    <ShowAllWarning>True</ShowAllWarning>
+    <TrimSetting>+ 0%</TrimSetting>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>False</DebugSymbols>
+    <DebugType>None</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ADC Demo Code.asm" EntryPoint="true" MetaData="" />
+    <None Include="ADC Demo Code.cb" EntryPoint="false" MetaData="" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Client: ATW" EntryPoint="false" MetaData="" />
+    <Reference Include="Config Block: ADC Demo Code.cb" EntryPoint="false" MetaData="" />
+    <Reference Include="IC Body: AT8B62D" EntryPoint="false" MetaData="" />
+  </ItemGroup>
+  <Properties>
+    <Array name="ActionFiles" />
+    <Array name="bookmarks" />
+    <Array name="DisassemblyPadColumnWidthInfo">
+      <Element value="AddrWidth|60" />
+      <Element value="CodeWidth|140" />
+      <Element value="ArrowWidth|20" />
+    </Array>
+    <Array name="ExternalResource" />
+    <Array name="files" />
+    <Array name="InstrumentFiles" />
+    <Array name="MelodyDatabaseFiles" />
+    <Array name="MusicFiles" />
+    <Array name="RegisterPadExpandInfo">
+      <Element value="0|True" />
+      <Element value="100|False" />
+      <Element value="101|False" />
+      <Element value="102|False" />
+      <Element value="103|False" />
+      <Element value="104|False" />
+      <Element value="105|False" />
+      <Element value="106|False" />
+      <Element value="107|False" />
+      <Element value="108|False" />
+      <Element value="109|False" />
+      <Element value="110|False" />
+      <Element value="111|False" />
+      <Element value="112|False" />
+      <Element value="113|False" />
+      <Element value="114|True" />
+      <Element value="115|True" />
+      <Element value="116|True" />
+      <Element value="117|True" />
+      <Element value="118|True" />
+      <Element value="119|False" />
+      <Element value="120|True" />
+      <Element value="121|True" />
+      <Element value="122|False" />
+      <Element value="123|True" />
+      <Element value="124|False" />
+      <Element value="125|False" />
+      <Element value="126|True" />
+      <Element value="127|False" />
+      <Element value="1|True" />
+      <Element value="200|False" />
+      <Element value="201|False" />
+      <Element value="202|False" />
+      <Element value="203|False" />
+      <Element value="204|False" />
+      <Element value="205|False" />
+      <Element value="206|False" />
+      <Element value="2|True" />
+      <Element value="300|False" />
+      <Element value="301|True" />
+      <Element value="302|True" />
+      <Element value="303|False" />
+      <Element value="304|False" />
+      <Element value="305|False" />
+      <Element value="306|False" />
+      <Element value="307|False" />
+      <Element value="308|False" />
+      <Element value="309|False" />
+      <Element value="310|True" />
+      <Element value="311|True" />
+      <Element value="312|False" />
+      <Element value="313|False" />
+      <Element value="314|False" />
+      <Element value="315|False" />
+      <Element value="316|False" />
+      <Element value="317|False" />
+      <Element value="318|False" />
+      <Element value="319|False" />
+      <Element value="320|False" />
+      <Element value="321|False" />
+    </Array>
+    <Array name="VoiceFiles" />
+    <Array name="VRModule" />
+    <Array name="WatchItemInfo">
+      <Element value="R_ADC0HB|" />
+      <Element value="R_ADC0LB|" />
+      <Element value="R_ADC_Offset|" />
+      <Element value="R_ADC1LB|" />
+      <Element value="R_ADC1HB|" />
+      <Element value="R_ADC2LB|" />
+      <Element value="R_ADC2HB|" />
+      <Element value="TMRH|" />
+    </Array>
+    <Array name="WatchPadColumnWidthInfo">
+      <Element value="NameWidth|144" />
+      <Element value="AddrWidth|67" />
+      <Element value="ValWidth|50" />
+      <Element value="PageWidth|63" />
+    </Array>
+  </Properties>
+</Project>

@@ -1,0 +1,19 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "PWM Test", "PWM Test.naprj", "{86F73A63-96F0-4258-8432-1B6CF8C6A7D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{86F73A63-96F0-4258-8432-1B6CF8C6A7D7}.Debug|AsmNy8.Build.0 = Debug|AsmNy8
+		{86F73A63-96F0-4258-8432-1B6CF8C6A7D7}.Debug|AsmNy8.ActiveCfg = Debug|AsmNy8
+		{86F73A63-96F0-4258-8432-1B6CF8C6A7D7}.Release|AsmNy8.Build.0 = Release|AsmNy8
+		{86F73A63-96F0-4258-8432-1B6CF8C6A7D7}.Release|AsmNy8.ActiveCfg = Release|AsmNy8
+	EndGlobalSection
+EndGlobal

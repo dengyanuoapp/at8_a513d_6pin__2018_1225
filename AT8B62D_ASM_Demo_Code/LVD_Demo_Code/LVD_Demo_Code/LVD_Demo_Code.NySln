@@ -1,0 +1,19 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.61.0.920
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "LVD Demo Code", "LVD Demo Code.naprj", "{08BCC114-6556-41C6-ABE1-2CB9161C9E84}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{08BCC114-6556-41C6-ABE1-2CB9161C9E84}.Debug|AsmNy8.Build.0 = Debug|AsmNy8
+		{08BCC114-6556-41C6-ABE1-2CB9161C9E84}.Debug|AsmNy8.ActiveCfg = Debug|AsmNy8
+		{08BCC114-6556-41C6-ABE1-2CB9161C9E84}.Release|AsmNy8.Build.0 = Release|AsmNy8
+		{08BCC114-6556-41C6-ABE1-2CB9161C9E84}.Release|AsmNy8.ActiveCfg = Release|AsmNy8
+	EndGlobalSection
+EndGlobal

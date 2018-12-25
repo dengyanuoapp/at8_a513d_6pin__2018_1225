@@ -1,0 +1,17 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.20.0.805
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "Sleep Demo Code", "Sleep Demo Code\Sleep Demo Code.naprj", "{6A80E00B-F8A1-42C1-B993-E662A67FBBB2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any = Debug|Any
+		Release|Any = Release|Any
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A80E00B-F8A1-42C1-B993-E662A67FBBB2}.Debug|Any.Build.0 = Debug|Any
+		{6A80E00B-F8A1-42C1-B993-E662A67FBBB2}.Debug|Any.ActiveCfg = Debug|Any
+		{6A80E00B-F8A1-42C1-B993-E662A67FBBB2}.Release|Any.Build.0 = Release|Any
+		{6A80E00B-F8A1-42C1-B993-E662A67FBBB2}.Release|Any.ActiveCfg = Release|Any
+	EndGlobalSection
+EndGlobal

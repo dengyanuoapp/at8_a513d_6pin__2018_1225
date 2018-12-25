@@ -1,0 +1,19 @@
+﻿
+Nyquest IDE Solution File, Format Version 1.00
+# NYIDE 2.00.0.758
+Project("{B1647980-B642-454F-99B0-4BB03538C058}") = "IR Test", "IR Test.naprj", "{0FC09459-1AE7-4449-8A10-C813622BE89C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+		Debug|AsmNy8 = Debug|AsmNy8
+		Release|AsmNy8 = Release|AsmNy8
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FC09459-1AE7-4449-8A10-C813622BE89C}.Debug|AsmNy8.Build.0 = Debug|AsmNy8
+		{0FC09459-1AE7-4449-8A10-C813622BE89C}.Debug|AsmNy8.ActiveCfg = Debug|AsmNy8
+		{0FC09459-1AE7-4449-8A10-C813622BE89C}.Release|AsmNy8.Build.0 = Release|AsmNy8
+		{0FC09459-1AE7-4449-8A10-C813622BE89C}.Release|AsmNy8.ActiveCfg = Release|AsmNy8
+	EndGlobalSection
+EndGlobal
