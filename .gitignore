@@ -14,3 +14,4 @@
 /date.now.txt
 
 /mobile/*.apk
+/[0-9]/
