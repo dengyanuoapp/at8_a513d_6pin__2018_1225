@@ -17,9 +17,20 @@ void _Fanalyze_M(void);
 #include "at8_constant.h"
 
 #define UPDATE_REG(x)	__asm__("MOVR _" #x ",F")
+
+unsigned char _bitT1 ;
+
 #define _action_01_toggle_B3       { PORTB ^= C_PB3_Input ; } // 414 byte
-#define _action_11_set_600mv__on   { _set_A5_OD__on _set_A2_as__input }
-#define _action_11_set_600mv_off   { _set_A5_OD_off _set_A2_as_output }
+//#define _action_11_set_600mv__on   { _set_A5_OD__on _set_A2_as_output }
+//#define _action_11_set_600mv_off   { _set_A5_OD_off _set_A2_as__input }
+//#define _action_11_set_600mv__on   { _set_A2_as_output ; _set_A2_data_1 }
+//#define _action_11_set_600mv_off   { _set_A2_as_output ; _set_A2_data_0 }
+//#define _action_11_set_600mv__on   { _set_A2_as_output ; _set_A2_data_1 ; _set_A2_as_output }
+//#define _action_11_set_600mv_off   { _set_A2_as_output ; _set_A2_data_1 ; _set_A2_as__input }
+//#define _action_11_set_600mv__on   { _set_A2_data_1 ; _set_A2_as_output }
+//#define _action_11_set_600mv_off   { _set_A2_data_1 ; _set_A2_as__input }
+#define _action_11_set_600mv__on   { _set_A2_as_output }
+#define _action_11_set_600mv_off   { _set_A2_as__input }
 
 #define _set_A5_ctrl_1      { IOSTA |=   C_PA5_Input  ; }       
 #define _set_A5_ctrl_0      { IOSTA &= (~C_PA5_Input) ; } 
@@ -27,6 +38,10 @@ void _Fanalyze_M(void);
 #define _set_A5_data_0      { PORTA &= (~C_PA5_Input) ; } 
 
 #define _set_A2_data_1      { PORTA |=   C_PA2_Input  ; }       
+//#define _set_A2_data_1      { PORTA =   PORTA | C_PA2_Input  ; }       
+//#define _set_A2_data_1      { PORTA |=   C_PA2_Input  ; PORTA |=   C_PA2_Input  ; PORTA |=   C_PA2_Input  ; PORTA |=   C_PA2_Input  ; }       
+//#define _set_A2_data_1      { _bitT1 = PORTA ; _bitT1 |=   C_PA2_Input  ; PORTA |= _bitT1 ; }
+
 #define _set_A2_data_0      { PORTA &= (~C_PA2_Input) ; }       
 #define _set_A2_ctrl_1      { IOSTA |=   C_PA2_Input  ; }       
 #define _set_A2_ctrl_0      { IOSTA &= (~C_PA2_Input) ; }       
@@ -64,6 +79,21 @@ void main(void)
     //IOSTB = (IOSTB | C_PB_Input) & ( ~ C_PB3_Input ) ;// Set PortB as input port , except PortB3 is output
 
     _set_A2_data_1 ;
+#if 0
+    _set_A2_as_output ;
+    _set_A2_data_1 ;
+    _set_A2_as__input ;
+
+    _set_A2_data_0 ;
+    _set_A2_as_output ;
+    _set_A2_data_0 ;
+    _set_A2_as__input ;
+
+    _set_A2_data_1 ;
+    _set_A2_as_output ;
+    _set_A2_data_1 ;
+    _set_A2_as__input ;
+#endif
 
     _set_A5_OD_off ;
     _set_A5_as_output ;
@@ -130,7 +160,8 @@ void _Fanalyze_L(void){
     _action_11_set_600mv_off ;
     _R_state = 0 ;
 } // _Fanalyze_L
-void _Fanalyze_H(void){
+
+void _Fanalyze_M(void){
     if ( _R_state > _state6mvOKmax ) {
         _action_11_set_600mv_off ;
         _R_state = 0 ;
@@ -142,11 +173,11 @@ void _Fanalyze_H(void){
             _action_11_set_600mv_off ;
             _R_state ++ ;
         }
-} // _Fanalyze_H
-void _Fanalyze_M(void){
+} // _Fanalyze_M
+void _Fanalyze_H(void){
     _action_11_set_600mv_off ;
     _R_state = _stateOveride ;
-} // _Fanalyze_M
+} // _Fanalyze_H
 
 void _Fanalyze_State(void){
     if ( _RadcREAL < _setADC_L ) {
