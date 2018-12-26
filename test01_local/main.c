@@ -31,6 +31,7 @@ void main(void)
     INTE  = 0x00;							// INTE = 0x00
 
     IOSTB = C_PB_Input & ( ~ C_PB5_Input ) ;// Set PortB as input port , except PortB5 is output
+    //IOSTB = (IOSTB | C_PB_Input) & ( ~ C_PB5_Input ) ;// Set PortB as input port , except PortB5 is output
 
     //----- Initial ADC-----	  
     ADMD  = C_ADC_En | C_ADC_CH_Dis | C_ADC_PA4 ;	// Enable ADC power, Disable global ADC input channel, Select PA4 pad as ADC input (SFR "ADMD")
