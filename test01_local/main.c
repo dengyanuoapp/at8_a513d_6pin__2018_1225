@@ -9,6 +9,9 @@
  * A2 as 600mv_up
  * A5 as 600mv_down (OD)
  */
+void _Fanalyze_L(void);
+void _Fanalyze_H(void);
+void _Fanalyze_M(void);
 
 #include <at8.h>
 #include "at8_constant.h"
@@ -60,10 +63,10 @@ void main(void)
     IOSTB = C_PB_Input & ( ~ C_PB3_Input ) ;// Set PortB as input port , except PortB3 is output
     //IOSTB = (IOSTB | C_PB_Input) & ( ~ C_PB3_Input ) ;// Set PortB as input port , except PortB3 is output
 
-    _set_A2_data_1
+    _set_A2_data_1 ;
 
-    _set_A5_OD_off
-    _set_A5_as_output
+    _set_A5_OD_off ;
+    _set_A5_as_output ;
 
     //----- Initial ADC-----	  
     ADMD  = C_ADC_En | C_ADC_CH_Dis | C_ADC_PA4 ;	// Enable ADC power, Disable global ADC input channel, Select PA4 pad as ADC input (SFR "ADMD")
@@ -106,7 +109,7 @@ void _FmainLoop(void)
 
     _Fanalyze_State() ;
 
-    _action_01_toggle_B3  
+    _action_01_toggle_B3   ;
 
 } // _FmainLoop
 
@@ -120,25 +123,40 @@ void _FmainLoop(void)
  */
 #define _setADC_L       51
 #define _setADC_H       102
+#define _state6mvOKmax  2
+#define _stateOveride   (_state6mvOKmax + 1 )
 
 void _Fanalyze_L(void){
-    _action_11_set_600mv_off
+    _action_11_set_600mv_off ;
     _R_state = 0 ;
 } // _Fanalyze_L
 void _Fanalyze_H(void){
+    if ( _R_state > _state6mvOKmax ) {
+        _action_11_set_600mv_off ;
+        _R_state = 0 ;
+    } else
+        if ( _R_state == _state6mvOKmax ) {
+            _action_11_set_600mv__on ;
+        } else 
+        {
+            _action_11_set_600mv_off ;
+            _R_state ++ ;
+        }
 } // _Fanalyze_H
 void _Fanalyze_M(void){
+    _action_11_set_600mv_off ;
+    _R_state = _stateOveride ;
 } // _Fanalyze_M
 
 void _Fanalyze_State(void){
     if ( _RadcREAL < _setADC_L ) {
         _Fanalyze_L();
     } else
-    if ( _RadcREAL > _setADC_H ) {
-        _Fanalyze_H();
-    } else { // between _setADC_L to _setADC_H
-        _Fanalyze_M();
-    }
+        if ( _RadcREAL > _setADC_H ) {
+            _Fanalyze_H();
+        } else { // between _setADC_L to _setADC_H
+            _Fanalyze_M();
+        }
 } // _Fanalyze_State(void)
 
 //----- Sub-Routine ----- 
@@ -153,12 +171,12 @@ void _FadcRead_pin(void)
     for ( __i01 = 4 ; __i01 ; __i01 -- ) {
         ADMDbits.START = 1;					// Start a ADC conversion session
         _F_wait_adc_conver_end();							// Waiting for ADC conversion complet	
-        _RadcL += ( 0x0F & ADR); 
+        //_RadcL += ( 0x0F & ADR); 
         _RadcH += ADD; 
     }
     _RadcH <<=4 ;
     _RadcH += _RadcL ;
-    _RadcH >>= 2 ; // div 4
+    _RadcH >>= 6 ; // div 4 , 2 + 4 == 6
     _RadcREAL = _RadcH  ;
 } // _FadcRead_pin
 
