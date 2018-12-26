@@ -1,12 +1,39 @@
 
+/* AT8 - B62D sot23-6pin
+ * 1 : PA4 /AIN4 / EX_CKIO / SCK
+ * 2 : VSS / GND
+ * 3 : PA5 / RSTb / VPP
+ * 4 : PB3 / AIN3 / PWM1 / BZ1 / CMPO / SDO
+ * 5 : VDD / VCC
+ * 6 : PA2 / AIN2 / PWM3 / BZ3 / SDI
+ * A2 as 600mv_up
+ * A5 as 600mv_down (OD)
+ */
+
 #include <at8.h>
 #include "at8_constant.h"
-unsigned char _R_state ;
 
 #define UPDATE_REG(x)	__asm__("MOVR _" #x ",F")
-#define  _action_01_toggle_B5       { PORTB ^= C_PB5_Input ; } // 414 byte
-#define  _action_11_set_600mv__on   {}
-#define  _action_11_set_600mv_off   {}
+#define _action_01_toggle_B3       { PORTB ^= C_PB3_Input ; } // 414 byte
+#define _action_11_set_600mv__on   { _set_A5_OD__on _set_A2_as__input }
+#define _action_11_set_600mv_off   { _set_A5_OD_off _set_A2_as_output }
+
+#define _set_A5_ctrl_1      { IOSTA |=   C_PA5_Input  ; }       
+#define _set_A5_ctrl_0      { IOSTA &= (~C_PA5_Input) ; } 
+#define _set_A5_data_1      { PORTA |=   C_PA5_Input  ; } 
+#define _set_A5_data_0      { PORTA &= (~C_PA5_Input) ; } 
+
+#define _set_A2_data_1      { PORTA |=   C_PA2_Input  ; }       
+#define _set_A2_data_0      { PORTA &= (~C_PA2_Input) ; }       
+#define _set_A2_ctrl_1      { IOSTA |=   C_PA2_Input  ; }       
+#define _set_A2_ctrl_0      { IOSTA &= (~C_PA2_Input) ; }       
+
+#define _set_A5_OD__on        _set_A5_data_1
+#define _set_A5_OD_off        _set_A5_data_0
+#define _set_A5_as_output      _set_A5_ctrl_0
+
+#define _set_A2_as__input   _set_A2_ctrl_1      // 1 -> input ; 0 -> output             
+#define _set_A2_as_output   _set_A2_ctrl_0      // 1 -> input ; 0 -> output             
 
 void _FadcRead_pin(void);
 void _Fanalyze_State(void);
@@ -19,6 +46,7 @@ void _halt_01_for_no_shake_need( void );
 unsigned int  _RadcH ;
 unsigned int  _RadcL ;
 unsigned char _RadcREAL ;
+unsigned char _R_state ;
 
 void main(void)
 {
@@ -28,8 +56,14 @@ void main(void)
     PORTA = 0xFF;							// PortA Data Register = 0xFF
     INTE  = 0x00;							// INTE = 0x00
 
-    IOSTB = C_PB_Input & ( ~ C_PB5_Input ) ;// Set PortB as input port , except PortB5 is output
-    //IOSTB = (IOSTB | C_PB_Input) & ( ~ C_PB5_Input ) ;// Set PortB as input port , except PortB5 is output
+    // B3 as the indecator
+    IOSTB = C_PB_Input & ( ~ C_PB3_Input ) ;// Set PortB as input port , except PortB3 is output
+    //IOSTB = (IOSTB | C_PB_Input) & ( ~ C_PB3_Input ) ;// Set PortB as input port , except PortB3 is output
+
+    _set_A2_data_1
+
+    _set_A5_OD_off
+    _set_A5_as_output
 
     //----- Initial ADC-----	  
     ADMD  = C_ADC_En | C_ADC_CH_Dis | C_ADC_PA4 ;	// Enable ADC power, Disable global ADC input channel, Select PA4 pad as ADC input (SFR "ADMD")
@@ -72,7 +106,7 @@ void _FmainLoop(void)
 
     _Fanalyze_State() ;
 
-    _action_01_toggle_B5  
+    _action_01_toggle_B3  
 
 } // _FmainLoop
 
@@ -88,6 +122,8 @@ void _FmainLoop(void)
 #define _setADC_H       102
 
 void _Fanalyze_L(void){
+    _action_11_set_600mv_off
+    _R_state = 0 ;
 } // _Fanalyze_L
 void _Fanalyze_H(void){
 } // _Fanalyze_H
