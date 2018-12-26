@@ -6,22 +6,18 @@
  * ADC Convert With Polling AIN4 or Internal 1/4 VDD eight times then calculate average.
  * 1. Set ADC clock frequency is 250KHz , Sample pulse width is 1 ADC clock,  
  *	  ADC conversion time = (1+12+2)*4us = 60us , ADC conversion rate = 1/60us = 16.6KHz
- * 2. Polling one of PA4(AIN4) or internal 1/4 VDD as ADC analog input eight times then calculate average.
+ * 2. Polling one of PA4(AIN4) as ADC analog input eight times then calculate average.
  * 3. Store AIN4 channel ADC convert result bit11~ bit0 to RAM "_R_pin_adc_dataBit_411[11:0]"
- * 4. Store internal 1/4VDD channel ADC convert result bit11~ bit0 to RAM "_R_Quarter_VDD_dataBit_411[11:0]"
  */
 
 #include <at8.h>
 #include "at8_constant.h"
 unsigned int  _R_pin_adc_dataBit_411;	
 unsigned char _R_pin_adc_dataBit_0_3;			
-unsigned int  _R_Quarter_VDD_dataBit_411;	
-unsigned char _R_Quarter_VDD_dataBit_0_3;	
 
 #define UPDATE_REG(x)	__asm__("MOVR _" #x ",F")
 
 void _FadcRead_pin(char);
-void _FadcRead_Quarter_VDD(char);
 void _F_wait_adc_conver_end(void);
 void _FdelayMS(int);
 void _FmainLoop(void);
@@ -33,6 +29,8 @@ void main(void)
     IOSTA = C_PA_Input;						// Set PortA as input port
     PORTA = 0xFF;							// PortA Data Register = 0xFF
     INTE  = 0x00;							// INTE = 0x00
+
+    IOSTB = C_PB_Input & ( ~ C_PB5_Input ) ;// Set PortB as input port , except PortB5 is output
 
     //----- Initial ADC-----	  
     ADMD  = C_ADC_En | C_ADC_CH_Dis | C_ADC_PA4 ;	// Enable ADC power, Disable global ADC input channel, Select PA4 pad as ADC input (SFR "ADMD")
@@ -59,11 +57,8 @@ void main(void)
 void _FmainLoop(void)
 {
     CLRWDT();							// Clear WatchDog
-    //_R_pin_adc_dataBit_411=_R_pin_adc_dataBit_0_3=_R_Quarter_VDD_dataBit_411=_R_Quarter_VDD_dataBit_0_3=0x00;            
     _R_pin_adc_dataBit_411=0x00 ;
     _R_pin_adc_dataBit_0_3=0x00 ;
-    _R_Quarter_VDD_dataBit_411=0x00;
-    _R_Quarter_VDD_dataBit_0_3=0x00;            
 
     _FadcRead_pin(8);					// executing AIN4 ADC converting 8 times
     _R_pin_adc_dataBit_411 <<= 4;					// _R_pin_adc_dataBit_411 shift left 4 bit
@@ -71,11 +66,10 @@ void _FmainLoop(void)
     _R_pin_adc_dataBit_411 += _R_pin_adc_dataBit_0_3;		// _R_pin_adc_dataBit_411 + _R_pin_adc_dataBit_0_3
     _R_pin_adc_dataBit_411 >>=3;					// _R_pin_adc_dataBit_411 dividing 8
 
-    _FadcRead_Quarter_VDD(8);			// executing 1/4VDD input channel ADC converting 8 times
-    _R_Quarter_VDD_dataBit_411 <<= 4;			// _R_Quarter_VDD_dataBit_411 shift left 4 bit
-    _R_Quarter_VDD_dataBit_0_3 &= 0xF0;		// Only get Bit7~4
-    _R_Quarter_VDD_dataBit_411 += _R_Quarter_VDD_dataBit_0_3; //// _R_Quarter_VDD_dataBit_411 + _R_Quarter_VDD_dataBit_0_3
-    _R_Quarter_VDD_dataBit_411 >>=3;			// _R_Quarter_VDD_dataBit_411 dividing 8
+    //PORTBbits.PB5 = !PORTBbits.PB5 ; // 474 byte
+    //if ( PORTBbits.PB5 ) { PORTBbits.PB5 = 0 ; } else { PORTBbits.PB5 = 1 ; } // 420 byte
+    PORTB ^= C_PB5_Input ; // 414 byte
+
 } // _FmainLoop
 
 
@@ -93,18 +87,6 @@ void _FadcRead_pin(char count)
     }
 }
 
-void _FadcRead_Quarter_VDD(char count)
-{
-    char i;
-    ADMD  = 0x90 | C_Quarter_VDD;			// Select internal 1/4VDD as ADC input
-    for(i=1;i<=count;i++)
-    {     			 
-        ADMDbits.START = 1;					// Start a ADC conversion session
-        _F_wait_adc_conver_end();							// Waiting for ADC conversion complet	
-        _R_Quarter_VDD_dataBit_0_3 += ( 0x0F & ADR); 
-        _R_Quarter_VDD_dataBit_411    += ADD; 
-    }
-}
 
 void _F_wait_adc_conver_end(void)
 {
