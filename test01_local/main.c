@@ -4,6 +4,9 @@
 unsigned char _R_state ;
 
 #define UPDATE_REG(x)	__asm__("MOVR _" #x ",F")
+#define  _action_01_toggle_B5       { PORTB ^= C_PB5_Input ; } // 414 byte
+#define  _action_11_set_600mv__on   {}
+#define  _action_11_set_600mv_off   {}
 
 void _FadcRead_pin(void);
 void _Fanalyze_State(void);
@@ -69,7 +72,7 @@ void _FmainLoop(void)
 
     _Fanalyze_State() ;
 
-    PORTB ^= C_PB5_Input ; // 414 byte
+    _action_01_toggle_B5  
 
 } // _FmainLoop
 
@@ -81,7 +84,25 @@ void _FmainLoop(void)
  * 800mv --> 102 --> 0x66
  *
  */
+#define _setADC_L       51
+#define _setADC_H       102
+
+void _Fanalyze_L(void){
+} // _Fanalyze_L
+void _Fanalyze_H(void){
+} // _Fanalyze_H
+void _Fanalyze_M(void){
+} // _Fanalyze_M
+
 void _Fanalyze_State(void){
+    if ( _RadcREAL < _setADC_L ) {
+        _Fanalyze_L();
+    } else
+    if ( _RadcREAL > _setADC_H ) {
+        _Fanalyze_H();
+    } else { // between _setADC_L to _setADC_H
+        _Fanalyze_M();
+    }
 } // _Fanalyze_State(void)
 
 //----- Sub-Routine ----- 
