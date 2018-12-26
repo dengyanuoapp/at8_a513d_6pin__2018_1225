@@ -1,26 +1,21 @@
-/*!
- * \decribtion		ADC_Polling(eight times average)
- * \author  		JasonLee
- * \date    		2018.08.30
- * \Version 		1.1
- * ADC Convert With Polling AIN4 or Internal 1/4 VDD eight times then calculate average.
- * 1. Set ADC clock frequency is 250KHz , Sample pulse width is 1 ADC clock,  
- *	  ADC conversion time = (1+12+2)*4us = 60us , ADC conversion rate = 1/60us = 16.6KHz
- * 2. Polling one of PA4(AIN4) as ADC analog input eight times then calculate average.
- * 3. Store AIN4 channel ADC convert result bit11~ bit0 to RAM "_R_pin_adc_dataBit_411[11:0]"
- */
 
 #include <at8.h>
 #include "at8_constant.h"
-unsigned int  _R_pin_adc_dataBit_411;	
-unsigned char _R_pin_adc_dataBit_0_3;			
+unsigned char _R_state ;
 
 #define UPDATE_REG(x)	__asm__("MOVR _" #x ",F")
 
-void _FadcRead_pin(char);
+void _FadcRead_pin(void);
+void _Fanalyze_State(void);
 void _F_wait_adc_conver_end(void);
-void _FdelayMS(int);
+void _FdelayMS(int count);
 void _FmainLoop(void);
+unsigned long  _Rcnt64H ; 
+unsigned long  _Rcnt64L ; 
+void _halt_01_for_no_shake_need( void );
+unsigned int  _RadcH ;
+unsigned int  _RadcL ;
+unsigned char _RadcREAL ;
 
 void main(void)
 {
@@ -49,6 +44,9 @@ void main(void)
     PACON = C_PA4_AIN4;						// Set AIN4(PA4) as pure ADC input for reduce power consumption (SFR "PACON")
     ADMDbits.GCHS = 1;						// Enable global ADC channel	(SFR "ADMD")
     _FdelayMS(50);								// Delay 0.56ms(Instruction clock=4MHz/2T) waiting ADC stable 
+    _R_state = 0 ;
+    _Rcnt64H = 0x1 ;
+    _Rcnt64L = 0xffffffff ;
     while(1)
     {
         _FmainLoop();
@@ -58,46 +56,70 @@ void main(void)
 void _FmainLoop(void)
 {
     CLRWDT();							// Clear WatchDog
-    _R_pin_adc_dataBit_411=0x00 ;
-    _R_pin_adc_dataBit_0_3=0x00 ;
 
-    _FadcRead_pin(8);					// executing AIN4 ADC converting 8 times
-    _R_pin_adc_dataBit_411 <<= 4;					// _R_pin_adc_dataBit_411 shift left 4 bit
-    _R_pin_adc_dataBit_0_3 &= 0xF0;				// Only get Bit7~4
-    _R_pin_adc_dataBit_411 += _R_pin_adc_dataBit_0_3;		// _R_pin_adc_dataBit_411 + _R_pin_adc_dataBit_0_3
-    _R_pin_adc_dataBit_411 >>=3;					// _R_pin_adc_dataBit_411 dividing 8
+    _Rcnt64L -- ;
+    if ( ! _Rcnt64L ) {
+        _Rcnt64H -- ;
+    }
+    if ( ! _Rcnt64H ) {
+        _halt_01_for_no_shake_need();
+    }
 
-    //PORTBbits.PB5 = !PORTBbits.PB5 ; // 474 byte
-    //if ( PORTBbits.PB5 ) { PORTBbits.PB5 = 0 ; } else { PORTBbits.PB5 = 1 ; } // 420 byte
+    _FadcRead_pin();					// executing AIN4 ADC converting 8 times
+
+    _Fanalyze_State() ;
+
     PORTB ^= C_PB5_Input ; // 414 byte
 
 } // _FmainLoop
 
+/*
+ * 2000mv / 256(ADD,8bit) == XXX mv / resistor
+ * 400mv --> 51  --> 0x33
+ * 450mv --> 57  --> 0x39
+ * 750mv --> 96  --> 0x60
+ * 800mv --> 102 --> 0x66
+ *
+ */
+void _Fanalyze_State(void){
+} // _Fanalyze_State(void)
 
 //----- Sub-Routine ----- 
-void _FadcRead_pin(char count)
+void _FadcRead_pin(void)
 {
-    char i;
+    char __i01 ;
+
     ADMD  = 0x90 | C_ADC_PA4;				// Select AIN4(PA4) pad as ADC input
-    for(i=1;i<=count;i++)
-    {     			 
+    _RadcL = 0 ;
+    _RadcH = 0 ;
+
+    for ( __i01 = 4 ; __i01 ; __i01 -- ) {
         ADMDbits.START = 1;					// Start a ADC conversion session
         _F_wait_adc_conver_end();							// Waiting for ADC conversion complet	
-        _R_pin_adc_dataBit_0_3 += ( 0x0F & ADR); 
-        _R_pin_adc_dataBit_411    += ADD; 
+        _RadcL += ( 0x0F & ADR); 
+        _RadcH += ADD; 
     }
-}
+    _RadcH <<=4 ;
+    _RadcH += _RadcL ;
+    _RadcH >>= 2 ; // div 4
+    _RadcREAL = _RadcH  ;
+} // _FadcRead_pin
 
 
 void _F_wait_adc_conver_end(void)
 {
     while(ADMDbits.EOC==0)
         ;
-}
+} // _F_wait_adc_conver_end
 
 void _FdelayMS(int count)
 {
-    int i;
-    for(i=1;i<=count;i++)
+    int __t02;
+    for(__t02=count;__t02;__t02--)
         ;
-}
+} // _FdelayMS
+
+void _halt_01_for_no_shake_need( void )
+{
+    while(1){ ; } 
+} // _halt_01_for_no_shake_need
