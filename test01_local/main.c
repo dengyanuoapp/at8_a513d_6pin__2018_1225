@@ -28,30 +28,35 @@ unsigned char _bitA25 ;
 //#define _action_01_toggle_B3       { _bitB3 = ! _bitB3 ; if (_bitB3 ) PORTBbits.PB3 = 1; else PORTBbits.PB3 = 0; } //  more bytes : 27 bytes : 0x2c-0x47
 #define _action_01_toggle_B3       { _bitB3 ^= 0x01 ; if (_bitB3 ) PORTBbits.PB3 = 1; else PORTBbits.PB3 = 0; } //  more bytes : 10 bytes :0x2c-0x35
 
-//#define _action_11_set_600mv__on   { _set_A5_OD__on _set_A2_as_output }
-//#define _action_11_set_600mv_off   { _set_A5_OD_off _set_A2_as__input }
-//#define _action_11_set_600mv__on   { _set_A2_as_output ; _set_A2_data_1 }
-//#define _action_11_set_600mv_off   { _set_A2_as_output ; _set_A2_data_0 }
-//#define _action_11_set_600mv__on   { _set_A2_as_output ; _set_A2_data_1 ; _set_A2_as_output }
-//#define _action_11_set_600mv_off   { _set_A2_as_output ; _set_A2_data_1 ; _set_A2_as__input }
-//#define _action_11_set_600mv__on   { _set_A2_data_1 ; _set_A2_as_output }
-//#define _action_11_set_600mv_off   { _set_A2_data_1 ; _set_A2_as__input }
-#define _action_11_set_600mv__on   { PORTAbits.PA2 = 1; _set_A2_as_output ; PORTAbits.PA2 = 1; }
-#define _action_11_set_600mv_off   { _set_A2_as__input }
+#define _action_21_set_600mv__onA2 { PORTAbits.PA2 = 1; _set_A2_as_output ; PORTAbits.PA2 = 1; }
+#define _action_21_set_600mv_offA2 { _set_A2_as__input }
+#define _action_22_set_600mv__onA5 { _set_A5_OD__on }
+#define _action_22_set_600mv_offA5 { _set_A5_OD_off }
+
+#define _action_11_set_600mv__on   { _action_21_set_600mv__onA2 ; _action_22_set_600mv__onA5 ; }
+#define _action_11_set_600mv_off   { _action_21_set_600mv_offA2 ; _action_22_set_600mv_offA5 ; }
+//#define _action_11_set_600mv__on   { _action_21_set_600mv__onA2 ; }
+//#define _action_11_set_600mv_off   { _action_21_set_600mv_offA2 ; }
+//#define _action_11_set_600mv__on   { _action_22_set_600mv__onA5 ; }
+//#define _action_11_set_600mv_off   { _action_22_set_600mv_offA5 ; }
 
 #define _set_A5_ctrl_1      { IOSTA |=   C_PA5_Input  ; }       
 #define _set_A5_ctrl_0      { IOSTA &= (~C_PA5_Input) ; } 
 #define _set_A5_data_1      { _bitA5 = 0x1  ; PORTAbits.PA5 = 1; }
 #define _set_A5_data_0      { _bitA5 = 0x0  ; PORTAbits.PA5 = 0; }
+#define _set_A5_data_1only  {                 PORTAbits.PA5 = 1; }
+#define _set_A5_data_0only  {                 PORTAbits.PA5 = 0; }
 
 #define _set_A2_data_1      { _bitA2 = 0x1  ; PORTAbits.PA2 = 1; }
 #define _set_A2_data_0      { _bitA2 = 0x0  ; PORTAbits.PA2 = 0; }
+#define _set_A2_data_1only  {                 PORTAbits.PA2 = 1; }
+#define _set_A2_data_0only  {                 PORTAbits.PA2 = 0; }
 
 #define _set_A2_ctrl_1      { IOSTA |=   C_PA2_Input  ; }       
 #define _set_A2_ctrl_0      { IOSTA &= (~C_PA2_Input) ; }       
 
-#define _set_A5_OD__on        _set_A5_data_1
-#define _set_A5_OD_off        _set_A5_data_0
+#define _set_A5_OD__on        _set_A5_data_0only
+#define _set_A5_OD_off        _set_A5_data_1only
 #define _set_A5_as_output      _set_A5_ctrl_0
 
 #define _set_A2_as__input   _set_A2_ctrl_1      // 1 -> input ; 0 -> output             
