@@ -241,3 +241,13 @@ void _halt_01_for_no_shake_need( void )
 {
     while(1){ ; } 
 } // _halt_01_for_no_shake_need
+
+typedef __PORTAbits_t  _tbitS ;
+_tbitS  AA1 ;
+void _testBit01(void)
+{
+    AA1.PA3 = 1 ;
+    AA1.PA5 = 0 ;
+} // _testBit01
+
+
