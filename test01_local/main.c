@@ -36,7 +36,7 @@ unsigned char _bitA25 ;
 //#define _action_11_set_600mv_off   { _set_A2_as_output ; _set_A2_data_1 ; _set_A2_as__input }
 //#define _action_11_set_600mv__on   { _set_A2_data_1 ; _set_A2_as_output }
 //#define _action_11_set_600mv_off   { _set_A2_data_1 ; _set_A2_as__input }
-#define _action_11_set_600mv__on   { _set_A2_as_output }
+#define _action_11_set_600mv__on   { PORTAbits.PA2 = 1; _set_A2_as_output ; PORTAbits.PA2 = 1; }
 #define _action_11_set_600mv_off   { _set_A2_as__input }
 
 #define _set_A5_ctrl_1      { IOSTA |=   C_PA5_Input  ; }       
