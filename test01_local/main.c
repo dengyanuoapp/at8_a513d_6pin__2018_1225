@@ -18,9 +18,16 @@ void _Fanalyze_M(void);
 
 #define UPDATE_REG(x)	__asm__("MOVR _" #x ",F")
 
-unsigned char _bitT1 ;
+unsigned char _bitB3  ;
+unsigned char _bitA25 ;
+#define _bitA2 _bitA25 
+#define _bitA5 _bitA25 
 
-#define _action_01_toggle_B3       { PORTB ^= C_PB3_Input ; } // 414 byte
+//#define _action_01_toggle_B3       { PORTB ^= C_PB3_Input ; } // less byte , but unstable , for the B3 bit maybe force change by the ext voltage.
+//#define _action_01_toggle_B3       { _bitB3 = ! _bitB3 ; PORTBbits.PB3 = _bitB3 ; } //  more bytes : 20 bytes
+//#define _action_01_toggle_B3       { _bitB3 = ! _bitB3 ; if (_bitB3 ) PORTBbits.PB3 = 1; else PORTBbits.PB3 = 0; } //  more bytes : 27 bytes : 0x2c-0x47
+#define _action_01_toggle_B3       { _bitB3 ^= 0x01 ; if (_bitB3 ) PORTBbits.PB3 = 1; else PORTBbits.PB3 = 0; } //  more bytes : 10 bytes :0x2c-0x35
+
 //#define _action_11_set_600mv__on   { _set_A5_OD__on _set_A2_as_output }
 //#define _action_11_set_600mv_off   { _set_A5_OD_off _set_A2_as__input }
 //#define _action_11_set_600mv__on   { _set_A2_as_output ; _set_A2_data_1 }
@@ -34,15 +41,12 @@ unsigned char _bitT1 ;
 
 #define _set_A5_ctrl_1      { IOSTA |=   C_PA5_Input  ; }       
 #define _set_A5_ctrl_0      { IOSTA &= (~C_PA5_Input) ; } 
-#define _set_A5_data_1      { PORTA |=   C_PA5_Input  ; } 
-#define _set_A5_data_0      { PORTA &= (~C_PA5_Input) ; } 
+#define _set_A5_data_1      { _bitA5 = 0x1  ; PORTAbits.PA5 = 1; }
+#define _set_A5_data_0      { _bitA5 = 0x0  ; PORTAbits.PA5 = 0; }
 
-#define _set_A2_data_1      { PORTA |=   C_PA2_Input  ; }       
-//#define _set_A2_data_1      { PORTA =   PORTA | C_PA2_Input  ; }       
-//#define _set_A2_data_1      { PORTA |=   C_PA2_Input  ; PORTA |=   C_PA2_Input  ; PORTA |=   C_PA2_Input  ; PORTA |=   C_PA2_Input  ; }       
-//#define _set_A2_data_1      { _bitT1 = PORTA ; _bitT1 |=   C_PA2_Input  ; PORTA |= _bitT1 ; }
+#define _set_A2_data_1      { _bitA2 = 0x1  ; PORTAbits.PA2 = 1; }
+#define _set_A2_data_0      { _bitA2 = 0x0  ; PORTAbits.PA2 = 0; }
 
-#define _set_A2_data_0      { PORTA &= (~C_PA2_Input) ; }       
 #define _set_A2_ctrl_1      { IOSTA |=   C_PA2_Input  ; }       
 #define _set_A2_ctrl_0      { IOSTA &= (~C_PA2_Input) ; }       
 
@@ -73,6 +77,9 @@ void main(void)
     IOSTA = C_PA_Input;						// Set PortA as input port
     PORTA = 0xFF;							// PortA Data Register = 0xFF
     INTE  = 0x00;							// INTE = 0x00
+
+    _bitB3  = 0 ;
+    _bitA25 = 0 ;
 
     // B3 as the indecator
     IOSTB = C_PB_Input & ( ~ C_PB3_Input ) ;// Set PortB as input port , except PortB3 is output
