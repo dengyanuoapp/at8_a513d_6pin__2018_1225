@@ -250,4 +250,17 @@ void _testBit01(void)
     AA1.PA5 = 0 ;
 } // _testBit01
 
+void _sleep1forever(void)
+{
+    /*
+     * bcr pcon,wdten
+     * clrr inte
+     * clrr intf
+     * sleep
+     * nop
+     * nop
+     * lgto $-3
+     */
+} // _sleep1forever
+
 
