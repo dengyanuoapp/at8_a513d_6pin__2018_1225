@@ -1,11 +1,11 @@
 
 /* AT8 - B62D sot23-6pin
- * 1 : PA4 /AIN4 / EX_CKIO / SCK       --------> --------> --------> --------> --------> ADC in, check 600mv wave
+ * 1 : PA4 /AIN4 / EX_CKIO / SCK       --------> --------> --------> --------> --------> PA4 : ADC in, check 600mv wave
  * 2 : VSS / GND
- * 3 : PA5 / RSTb / VPP                --------> --------> --------> --------> --------> down, OD 
- * 4 : PB3 / AIN3 / PWM1 / BZ1 / CMPO / SDO      --------> --------> --------> --------> indecator
+ * 3 : PA5 / RSTb / VPP                --------> --------> --------> --------> --------> PA5 : down, OD 
+ * 4 : PB3 / AIN3 / PWM1 / BZ1 / CMPO / SDO      --------> --------> --------> --------> PB3 : indecator
  * 5 : VDD / VCC
- * 6 : PA2 / AIN2 / PWM3 / BZ3 / SDI   --------> --------> --------> --------> --------> up, input/off , output /on 
+ * 6 : PA2 / AIN2 / PWM3 / BZ3 / SDI   --------> --------> --------> --------> --------> PA2 : up, input/off , output /on 
  * A2 as 600mv_up
  * A5 as 600mv_down (OD)
  */
@@ -157,13 +157,17 @@ void _FmainLoop(void)
 
 /*
  * 2000mv / 256(ADD,8bit) == XXX mv / resistor
+ * 200mv --> 26  --> 0x1a
+ * 300mv --> 38  --> 0x33
  * 400mv --> 51  --> 0x33
  * 450mv --> 57  --> 0x39
  * 750mv --> 96  --> 0x60
  * 800mv --> 102 --> 0x66
  *
  */
-#define _setADC_L       51
+//#define _setADC_L       51
+#define _setADC_L       38
+//#define _setADC_L       26
 #define _setADC_H       102
 #define _state6mvOKmax  2
 #define _stateOveride   (_state6mvOKmax + 1 )
